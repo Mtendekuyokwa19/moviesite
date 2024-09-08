@@ -94,7 +94,7 @@ return results;
   }, []);
   return(
     <div className="flex flex-col gap-4">
-    <NavBar/>
+
     <Hero/>
 
     <div className="flex gap-2 p-12">
@@ -117,7 +117,7 @@ return results;
 
 }
 
-function NavBar() {
+export function NavBar() {
 
 return(
   <nav className="flex list-none px-8 py-4 justify-center gap-16">
@@ -158,7 +158,7 @@ return(
 
 }
 
-function SearchInput() {
+ export function SearchInput() {
 
 const [toogleSearch, settoogleSearch] = useState(false);
 
