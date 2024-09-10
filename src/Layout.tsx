@@ -2,32 +2,11 @@ import { User } from "lucide-react";
 import { Outlet, Link } from "react-router-dom";
 import { SearchInput } from "./components/home";
 
-export const Jack = () => {
-  return (
-    <>
-      <nav>
-        <ul>
-          <li>
-          </li>
-          <li>
-            <Link to="/blogs">Blogs</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <Outlet />
-    </>
-  )
-};
-
 export function Layout() {
 
 return(
   <>
-  <nav className="flex list-none px-8 py-4 justify-center gap-16">
+  <nav className="flex list-none px-8 py-4 justify-center gap-16 h-full w-full bg-gray-200  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-60 border-b-2 z-10 border-gray-100 sticky top-0">
     <li>
       <button>
         <h1>
@@ -46,9 +25,7 @@ return(
 
         <Link to="/Shop">Shop</Link>
     </li>
-    <li>
-      Watchlist
-    </li>
+   
     <li>
       Cart
     </li>

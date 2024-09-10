@@ -13,7 +13,7 @@ export function SearchIcon(){
 
 
   return(
-    <svg className="h-6 w-6 text-slate-500"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="10" cy="10" r="7" />  <line x1="21" y1="21" x2="15" y2="15" /></svg>
+    <svg className="h-6 w-6 text-slate-700"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="10" cy="10" r="7" />  <line x1="21" y1="21" x2="15" y2="15" /></svg>
   )
 }
 
@@ -55,4 +55,18 @@ export function Remove(){
   return(
     <svg className="h-4 w-4 text-gray-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <line x1="5" y1="12" x2="19" y2="12" /></svg>
   )
+}
+
+export function AddToWatchList({watched}:Iaddtowatchlist) {
+  
+  
+
+  return(
+    <svg className={watched?"fill-none h-7 w-7 text-slate-300":"h-7 w-7 text-red-600 fill-red-600"}  viewBox="0 0 24 24"   stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+  )
+}
+
+interface Iaddtowatchlist{
+
+  watched:boolean;
 }

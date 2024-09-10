@@ -534,7 +534,7 @@ function toogleShow() {
 
 }
 return(
-  <div className="border-t-2 border-gray-200 px-24 py-4 flex flex-col">
+  <div className="border-t-2 border-gray-200 px-24 py-4 flex flex-col" onClick={toogleShow} >
     <div className="flex justify-between gap-10">
 
       <p className="text-lg">{question+"?"}</p>
