@@ -1,6 +1,8 @@
 import { ReactElement, useEffect, useState } from "react"
 import { AddToWatchList, StartCategoryIcon, View } from "./svg"
 import { resolve } from "path";
+import ReactLoading from 'react-loading';
+
 
 
 class MovieDetails {
@@ -37,6 +39,7 @@ const options = {
 
 export function Shop() {
 
+  const [loading, setloading] = useState(true);
   // TODO url fetch movies
 
   const [movieCollection, setmovieCollection] = useState([new MovieDetails("power",8,"Goodmovie","spider",["kanye","west"],new Date("2024"),"")]);
@@ -45,7 +48,10 @@ export function Shop() {
 
     let movies=fetch(url,options);
 
+
+
     let response= await movies;
+
 
     return response.json();
 
@@ -57,9 +63,12 @@ export function Shop() {
 
   useEffect(() => {
 
+    // TODO Loading animation
     try {
       let movies=GetTrendingMovies();
       let moviesArray:MovieDetails[]=[];
+
+
 
 
       movies.then((resolve)=>{
@@ -71,6 +80,7 @@ export function Shop() {
             })
 
             setmovieCollection(moviesArray);
+            setloading(false)
 
 
 
@@ -93,9 +103,7 @@ export function Shop() {
   }, []);
 
 
-  return(
-    <BestOfAction movies={movieCollection} />
-  )
+  return loading?<div className="flex flex-col h-screen justify-center items-center"><Loading type={"bars"} color={"red"}/></div>:<BestOfAction movies={movieCollection}/>
 
 }
 
@@ -200,4 +208,15 @@ function Stars({numberOfStars}:Stars) {
 
 interface Stars{
   numberOfStars:number
+}
+const Loading = ({ type, color }:ILoading) => (
+  <div className="flex flex-col justify-center items-center h-full w-full">
+    <ReactLoading type={type} color={color} height={120} width={130} />
+    <h2 className="font-bold text-2xl">Fetching</h2>
+  </div>
+);
+
+interface ILoading{
+  type:any;
+  color:string;
 }
