@@ -1,11 +1,17 @@
+import { MovieDetails } from "./shop";
 
 
-export function Card() {
+export function Card({movie}:ICard) {
 
 
 
   return (
-    <h1>Cards</h1>
+    <h1>{movie.name}</h1>
   )
 
+}
+
+interface ICard{
+
+  movie:MovieDetails;
 }

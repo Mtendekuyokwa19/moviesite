@@ -2,11 +2,12 @@ import { ReactElement, useEffect, useState } from "react"
 import { AddToWatchList, StartCategoryIcon, View } from "./svg"
 import { resolve } from "path";
 import ReactLoading from 'react-loading';
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
+import { Card } from "./card";
 
 
 //TODO search
-class MovieDetails {
+export class MovieDetails {
 
   name:string;
   rating:number;
@@ -37,8 +38,10 @@ const options = {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0NzVkMWY5MjExNDNkMTBkNTkwMTQzZWIyZGNjMWMyYyIsIm5iZiI6MTcyNTkxMDI1MS40NTg0MjYsInN1YiI6IjY2ZGVjMjY3NDBmZDc4MDkxODA0NjRhYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.dhNZYE6TtDoWWikZbskJffk5SZxlSbGCn0Nl8Fc6140'
   }
 };
-
-export function Shop() {
+interface IShop{
+  cardMove:any;
+}
+export function Shop({cardMove}:IShop) {
 
   const [loading, setloading] = useState(true);
 
@@ -102,17 +105,17 @@ export function Shop() {
   }, []);
 
 
-  return loading?<div className="flex flex-col h-screen justify-center items-center"><Loading type={"bars"} color={"red"}/></div>:<BestOfAction movies={movieCollection}/>
+  return loading?<div className="flex flex-col h-screen justify-center items-center"><Loading type={"bars"} color={"red"}/></div>:<BestOfAction movies={movieCollection} cardMove={cardMove}/>
 
 }
 
-function BestOfAction({movies}:IBestofAction){
-  console.log(movies)
+function BestOfAction({movies,cardMove}:IBestofAction){
+
 
 
   return(
   <div className="grid grid-cols-4 grid-rows-6 gap-y-20">
-    {movies.map(movie=> <MovieCard movie={movie} />)}
+    {movies.map(movie=> <MovieCard movie={movie} cardMove={cardMove}/>)}
   </div>
 
   )
@@ -120,13 +123,15 @@ function BestOfAction({movies}:IBestofAction){
 interface IBestofAction{
 
   movies:MovieDetails[];
+  cardMove:any;
 }
 
 interface IMovieCard{
   movie:MovieDetails;
+  cardMove:any;
 
 }
-function MovieCard({movie}:IMovieCard) {
+function MovieCard({movie,cardMove}:IMovieCard) {
   const [watched,setWatched]=useState(true)
 
   function toogleWatchlist() {
@@ -137,7 +142,13 @@ function MovieCard({movie}:IMovieCard) {
   return(
 
     <div className="p-8 h-36 transition-all duration-75 ease-in-out hover:scale-105 card">
-      <img src={movie.image} alt="" className=" rounded-md" />
+
+
+      <Link to="/Card" >
+
+      <img src={movie.image} alt="" className=" rounded-md" onClick={()=>cardMove(movie)} />
+      </Link>
+
 
 
 <div className=" text-white gap-3 p-2 relative -top-16 flex h-full w-full bg-gray-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-60
