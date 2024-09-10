@@ -40,7 +40,6 @@ const options = {
 export function Shop() {
 
   const [loading, setloading] = useState(true);
-  // TODO url fetch movies
 
   const [movieCollection, setmovieCollection] = useState([new MovieDetails("power",8,"Goodmovie","spider",["kanye","west"],new Date("2024"),"")]);
 
@@ -63,7 +62,6 @@ export function Shop() {
 
   useEffect(() => {
 
-    // TODO Loading animation
     try {
       let movies=GetTrendingMovies();
       let moviesArray:MovieDetails[]=[];
@@ -209,7 +207,7 @@ function Stars({numberOfStars}:Stars) {
 interface Stars{
   numberOfStars:number
 }
-const Loading = ({ type, color }:ILoading) => (
+export const Loading = ({ type, color }:ILoading) => (
   <div className="flex flex-col justify-center items-center h-full w-full">
     <ReactLoading type={type} color={color} height={120} width={130} />
     <h2 className="font-bold text-2xl">Fetching</h2>
@@ -219,4 +217,30 @@ const Loading = ({ type, color }:ILoading) => (
 interface ILoading{
   type:any;
   color:string;
+}
+
+function Alert(){
+  //TODO alertNotification
+useEffect(() => {
+  let alert=document.getElementById("alert") as HTMLDialogElement;
+  alert.show();
+
+  setTimeout(() => {
+    alert.close();
+  }, 3000);
+  return () => {
+
+  };
+}, []);
+  return(
+    <dialog id="alert" className=" flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+  <svg className="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  <span className="sr-only">Info</span>
+  <div>
+    <span className="font-medium">Success alert!</span> Change a few things up and try submitting again.
+  </div>
+</dialog>
+  )
 }

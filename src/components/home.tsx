@@ -1,6 +1,8 @@
 import { useState ,useEffect, SetStateAction} from "react";
 import { BuyNowIcon, MoviesCategoryIcon, Remove, SearchIcon, StartCategoryIcon, User, View } from "./svg"
 import "./home.css"
+import { Loading } from "./shop";
+import ReactLoading from "react-loading";
 
 let Logos:company[]=[
 
@@ -36,7 +38,7 @@ let netflix:company=new company (require("./img/netflix.png"),"netflix")
 
 export function Home() {
   const [movieCollection, setmovieCollection] = useState([new MovieTrending("jack",2,8,"jack","jack","jack")]);
-
+  const [loading, setloading] = useState(true);
   async function getMovies() {
     let movies:string[]=["Kanye","Kung fu Panda","Jesus","Attack on titan"]
     let results:any[]=[]
@@ -76,7 +78,7 @@ return results;
 
       }
 
-
+      setloading(false)
     manageCollection(moviesCollections);
 
 
@@ -106,7 +108,8 @@ return results;
       <h2  className="font-bold text-2xl p-6 text-center">Trending Watches</h2>
 
       <div className="flex gap-6 overflow-hidden justify-evenly p-8">
-        {movieCollection.map(movie=> <Trending key={movie.rating} name={movie.name.toString()} position={movie.position} rating={movie.rating} type={movie.type} link={movie.link} category={movie.category}/>)}
+
+              {loading?<AnimationLoading/>:movieCollection.map(movie=> <Trending key={movie.rating} name={movie.name.toString()} position={movie.position} rating={movie.rating} type={movie.type} link={movie.link} category={movie.category}/>)}
          </div>
     </div>
   <TailwindStats/>
@@ -660,4 +663,24 @@ function Footer() {
 
   )
 
+}
+
+function AnimationLoading() {
+
+  return(
+    <div><LoadingAnimation type={"spin"} color={"red"} /></div>
+  )
+
+}
+
+const LoadingAnimation = ({ type, color }:ILoading) => (
+  <div className="flex flex-col justify-center items-center h-full w-full">
+    <ReactLoading type={type} color={color} height={40} width={60} />
+
+  </div>
+);
+
+interface ILoading{
+  type:any;
+  color:string;
 }
