@@ -164,6 +164,7 @@ return(
  export function SearchInput() {
 
 const [toogleSearch, settoogleSearch] = useState(false);
+const [Query, setQuery] = useState("");
 
 function toogle() {
   if(toogleSearch===true){
@@ -172,10 +173,15 @@ function toogle() {
   }
   settoogleSearch(true)
 }
+
+function GetQuery(e: { target: { value: SetStateAction<string>; }; }) {
+  setQuery(e.target.value)
+
+}
 let inputClassname="  bg-slate-100 rounded-md outline outline-offset-2 outline-1 ";
   return(
     <div className="flex gap-2">
-      <input type="text" className={(toogleSearch?"hidden"+inputClassname:"flex"+inputClassname)} placeholder="search"/>
+      <input type="text" className={(toogleSearch?"hidden"+inputClassname:"flex"+inputClassname)} placeholder="search" onChange={GetQuery}/>
        <button className="flex" onClick={toogle}>
         <SearchIcon/>
 

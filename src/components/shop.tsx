@@ -2,9 +2,10 @@ import { ReactElement, useEffect, useState } from "react"
 import { AddToWatchList, StartCategoryIcon, View } from "./svg"
 import { resolve } from "path";
 import ReactLoading from 'react-loading';
+import { Link } from "react-router-dom";
 
 
-
+//TODO search
 class MovieDetails {
 
   name:string;
@@ -110,7 +111,7 @@ function BestOfAction({movies}:IBestofAction){
 
 
   return(
-  <div className="grid grid-cols-4 grid-rows-5 gap-y-20">
+  <div className="grid grid-cols-4 grid-rows-6 gap-y-20">
     {movies.map(movie=> <MovieCard movie={movie} />)}
   </div>
 
@@ -134,7 +135,8 @@ function MovieCard({movie}:IMovieCard) {
   }
 
   return(
-    <div className="p-8 h-32 transition-all duration-75 ease-in-out hover:scale-105 card">
+
+    <div className="p-8 h-36 transition-all duration-75 ease-in-out hover:scale-105 card">
       <img src={movie.image} alt="" className=" rounded-md" />
 
 
