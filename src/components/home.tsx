@@ -22,7 +22,7 @@ class company {
 
 const url = 'https://www.omdbapi.com/?i=tt3896198&apikey=4f9a8426';
 
-function movieFetch(movie:string):string {
+export function movieFetch(movie:string):string {
   let url=`https://www.omdbapi.com/?t=${movie}&apikey=843f2c83`
 
   return url

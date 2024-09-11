@@ -6,14 +6,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from './components/home';
 import { MovieDetails, Shop } from "./components/shop";
 import { Layout } from './Layout';
+import { Cart } from './components/cart';
 import { Card } from './components/card';
 
 export default function App() {
-const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"") );
-
+const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0) );
+const [catalog, setCatalog] = useState([new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0)]);
 function cardMove(movie: React.SetStateAction<MovieDetails>) {
 
   setrouteCard(movie)
+}
+
+function AddtoCart(item:MovieDetails) {
+
+  setCatalog([...catalog,item])
+
 }
 
   return (
@@ -22,7 +29,8 @@ function cardMove(movie: React.SetStateAction<MovieDetails>) {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="shop" element={<Shop cardMove={cardMove} />} />
-              <Route path="Card" element={<Card movie={routeCard} />} />
+           <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} />} />
+            <Route path="Cart" element={<Cart catalog={catalog} cardMove={cardMove}  />} />
 
         </Route>
       </Routes>

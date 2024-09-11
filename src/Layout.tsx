@@ -25,9 +25,9 @@ return(
 
         <Link to="/Shop">Shop</Link>
     </li>
-   
+
     <li>
-      Cart
+        <Link to="/Cart">Cart</Link>
     </li>
     </div>
 

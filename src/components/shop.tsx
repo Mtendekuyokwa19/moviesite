@@ -15,9 +15,15 @@ export class MovieDetails {
   category:string;
   actors:string[];
   year:Date;
+  id:number;
   image:string;
+  populalarity!: number;
+  voteAverage!: number;
+  voteCount!: number;
+  inCart:boolean;
 
-  constructor(name:string,rating:number,description:string,category:string,actors:string[],year:Date,image:string) {
+
+  constructor(name:string,rating:number,description:string,category:string,actors:string[],year:Date,image:string,id:number) {
     this.name=name;
     this.rating=rating;
     this.description=description;
@@ -25,6 +31,13 @@ export class MovieDetails {
     this.actors=actors;
     this.year=year;
     this.image="http://image.tmdb.org/t/p/w500"+image;
+    this.id=id;
+    this.inCart=false;
+  }
+
+  getExtraInfo(){
+
+    return this.id
   }
 }
 
@@ -45,7 +58,7 @@ export function Shop({cardMove}:IShop) {
 
   const [loading, setloading] = useState(true);
 
-  const [movieCollection, setmovieCollection] = useState([new MovieDetails("power",8,"Goodmovie","spider",["kanye","west"],new Date("2024"),"")]);
+  const [movieCollection, setmovieCollection] = useState([new MovieDetails("power",8,"Goodmovie","spider",["kanye","west"],new Date("2024"),"",0)]);
 
   async function GetTrendingMovies() {
 
@@ -77,8 +90,8 @@ export function Shop({cardMove}:IShop) {
 
 
           console.log(resolve.results)
-            resolve.results.forEach((movie: { original_title: string; vote_average: number; overview: string; release_date: string | number | Date; backdrop_path:string })=>{
-              moviesArray.push(new MovieDetails(movie.original_title,movie.vote_average,movie.overview,"movie",["kanye","west"],new Date(movie.release_date),movie.backdrop_path));
+            resolve.results.forEach((movie: { original_title: string; vote_average: number; overview: string; release_date: string | number | Date; backdrop_path:string;id:number })=>{
+              moviesArray.push(new MovieDetails(movie.original_title,movie.vote_average,movie.overview,"movie",["kanye","west"],new Date(movie.release_date),movie.backdrop_path,movie.id));
             })
 
             setmovieCollection(moviesArray);
@@ -131,7 +144,7 @@ interface IMovieCard{
   cardMove:any;
 
 }
-function MovieCard({movie,cardMove}:IMovieCard) {
+export function MovieCard({movie,cardMove}:IMovieCard) {
   const [watched,setWatched]=useState(true)
 
   function toogleWatchlist() {

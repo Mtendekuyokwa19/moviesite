@@ -1,11 +1,22 @@
 import { url } from "inspector";
 import { MovieDetails } from "./shop";
-import { ChooseHeroBtns } from "./home";
-import { BuyNowIcon } from "./svg";
+import { ChooseHeroBtns, movieFetch } from "./home";
+import { BuyNowIcon, StartCategoryIcon } from "./svg";
+import { useEffect, useState } from "react";
+import { StarFilledIcon } from "@radix-ui/react-icons";
 
 
-export function Card({movie}:ICard) {
+export function Card({movie,AddtoCart}:ICard) {
 let backdrop=movie.image;
+const [MovieAnalysis, setMovieAnanlysis] = useState(new MovieCardSet());
+
+useEffect(() => {
+  movieGot(movie.id.toString(),(movie:MovieCardSet)=>setMovieAnanlysis(movie))
+
+  return () => {
+
+  };
+}, []);
 
 
   return (
@@ -13,11 +24,11 @@ let backdrop=movie.image;
        backgroundImage:`url(${backdrop})`,
 
 
-    }}  className="h-screen   flex flex-col ">
+    }}  className="h-screen cardDetails  flex flex-col ">
 
 <div className="flex flex-col justify-center items-center h-screen">
 
-    <MovieCard/>
+    <MovieCard movie={movie} AddtoCart={AddtoCart} />
 </div>
     </div>
   )
@@ -30,50 +41,50 @@ let backdrop=movie.image;
 interface ICard{
 
   movie:MovieDetails;
+  AddtoCart:any
 }
 
-function MovieCard() {
+function MovieCard({movie,AddtoCart}:ImovieCard) {
+
+
 
   return(
-    <div className="w-1/2 h-3/4 ">
+    <div className="w-1/2 h-2/3 rounded-md" id="modal">
       <div className="h-2/5 overflow-hidden">
 
-        <img src={require("./img/mandalorian.jpg")}  className="w-screen" alt="" />
+        <img src={movie.image}  className="w-screen rounded-2xl " alt="" />
       </div>
 
-        <div className="flex bg-white z-10 h-3/5 justify-evenly flex-1  p-5">
-          <MovieResearch/>
+        <div className="flex bg-white z-10 h-3/5 justify-evenly flex-1  p-5 rounded-sm">
+          <MovieResearch movie={movie} AddtoCart={AddtoCart}/>
 
         </div>
     </div>
   )
 
 }
+interface ImovieCard{
+movie:MovieDetails;
+AddtoCart:any;
+}
 
 
-
-function MovieResearch(){
+function MovieResearch({movie,AddtoCart}:ImovieCard){
 
   return(
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5 p-5">
     <div className="bg-white flex flex-col gap-2">
 
-    <h1 className="text-3xl font-bold">The Lion King (1994)</h1>
-    <p className="font-sans text-sm">G| 1h28min| Animation, Adventure, Drama| 24 June (USA)</p>
+    <h1 className="text-3xl font-bold">{movie.name+" ("+movie.year.getFullYear()+")"}</h1>
+    <p className="font-bold text-md flex gap-2 items-center">
+      <StartCategoryIcon/>
+      {movie.rating+"|"+movie.category}</p>
     </div>
 
-    <p className="text-sm ">The book is designed to be easy to understand and accessible to anyone looking to learn JavaScript. It provides a step-by-step gentle guide that will help you understand how to use JavaScript to create a dynamic application.
+    <p className="text-md ">{movie.description}</p>
 
-Here's my promise: You will actually feel like you understand what you're doing with JavaScript.
 
-Until next time!</p>
-
-    <div className="bg-white flex flex-col gap-2 text-sm">
-      <p>Directors:Roger Allers, Rob Minkoff</p>
-      <p>Writers:Irene Mecchi (Screenplay)</p>
-      <p>Stars:Matthew Broderic, Jeremy Irons</p>
-    </div>
-    <MovieButton/>
+    <MovieButton AddtoCart={AddtoCart} movie={movie} />
     </div>
   )
 }
@@ -112,12 +123,12 @@ interface IShootingDetails{
 }
 
 
-function MovieButton() {
+function MovieButton({movie,AddtoCart}:ImovieCard) {
 
 
   return(
     <div className="flex gap-2 ">
-     <button className="flex items-center justify-center bg-green-700 text-white flex-1  rounded-md gap-2 hover:bg-emerald-700 ">
+     <button className="flex items-center justify-center bg-green-700 text-white flex-1  rounded-md gap-2 hover:bg-emerald-700 "onClick={()=>AddtoCart(movie)}>
       <BuyNowIcon/>
      <p>Buy Now</p>
      </button>
@@ -130,24 +141,26 @@ function MovieButton() {
 
 }
 
-class Card {
-  title:string;
-  Year:string;
-  Rated:string;
-  Runtime:string;
-  genre:string;
-  director:string;
-  writer:string;
-  Actors:string;
-  plot:string;
-  language:string;
-  country:string;
-  poster:string;
-metascore:number;
-imdbRating:number;
-imdbvotes:number;
-BoxOffice:number |string;
-  constructor(title:string,Actors:string,BoxOffice:number|string,Rated:string,Runtime:string,Year:string,country:string,director:string,genre:string,writer:string,metascore:number,imdbRating:number,imdbvotes:number,language:string,plot:string,) {
+class MovieCardSet {
+  title!: string;
+  Year!: string;
+  Rated!: string;
+  Runtime!: string;
+  genre!: string;
+  director!: string;
+  writer!: string;
+  Actors!: string;
+  plot!: string;
+  language!: string;
+  country!: string;
+  poster!: string;
+  metascore!: number;
+  imdbRating!: number;
+  imdbvotes!: number;
+  BoxOffice!: number | string;
+
+
+  setAll(title:string,Actors:string,BoxOffice:number|string,poster:string,Rated:string,Runtime:string,Year:string,country:string,director:string,genre:string,writer:string,metascore:number,imdbRating:number,imdbvotes:number,language:string,plot:string,) {
     this.title=title;
     this.Actors=Actors;
     this.BoxOffice=BoxOffice;
@@ -163,8 +176,42 @@ BoxOffice:number |string;
     this.metascore=metascore;
     this.plot=plot;
     this.writer=writer;
+    this.poster=poster;
 
 
 
   }
+}
+
+
+async function FetchMovie(id:string){
+
+  let movieDetails=fetch(urlSolicit(id))
+  let response= await movieDetails;
+
+return response.json()
+
+}
+
+function movieGot(id:string,setMovie:any) {
+  let movie= new MovieCardSet();
+
+  let getMovie=FetchMovie(id);
+  getMovie.then((result)=>{
+
+   movie.setAll(result.Title,result.Actors,result.BoxOffice,result.Poster,result.Rated,result.Runtime,result.Year,result.Country,result.Director,result.Genre,result.Writer,parseFloat(result.Metascore),parseFloat(result.imdbRating),parseFloat(result.imdbVotes),result.Language,result.Plot)
+    console.log(movie)
+    setMovie(movie)
+     return movie
+
+  })
+
+
+}
+
+
+function urlSolicit(id:string) {
+
+  return `https://www.omdbapi.com/?t=${id}&apikey=4f9a8426`;
+
 }
