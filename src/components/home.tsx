@@ -223,7 +223,7 @@ function Hero(){
   )
 }
 
-function ChooseHeroBtns() {
+export function ChooseHeroBtns() {
 
   return(
     <div className="flex gap-4">
