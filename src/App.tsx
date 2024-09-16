@@ -10,8 +10,9 @@ import { Cart } from './components/cart';
 import { Card } from './components/card';
 
 export default function App() {
+  let movie:MovieDetails[]=[];
 const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0) );
-const [catalog, setCatalog] = useState([new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0)]);
+const [catalog, setCatalog] = useState(movie);
 function cardMove(movie: React.SetStateAction<MovieDetails>) {
 
   setrouteCard(movie)
