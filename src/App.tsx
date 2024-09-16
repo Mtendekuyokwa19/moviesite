@@ -23,6 +23,13 @@ function AddtoCart(item:MovieDetails) {
   setCatalog([...catalog,item])
 
 }
+function removeFromCart(movie:MovieDetails){
+  let collection=catalog;
+  collection.splice(collection.indexOf(movie),1)
+  console.log(collection)
+  setCatalog([...collection]);
+
+}
 
   return (
     <BrowserRouter>
@@ -31,7 +38,7 @@ function AddtoCart(item:MovieDetails) {
           <Route index element={<Home />} />
           <Route path="shop" element={<Shop cardMove={cardMove} />} />
            <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} />} />
-            <Route path="Cart" element={<Cart catalog={catalog} cardMove={cardMove}  />} />
+            <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
 
         </Route>
       </Routes>
