@@ -1,19 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MovieCard, MovieDetails } from "./shop";
 import { type } from "os";
 
 export function Cart({catalog,cardMove}:Cart) {
+const [emptyCart, setemptyCart] = useState(catalog.length===0);
+
+function ManageClearCart(){
+  setemptyCart(catalog.length===0)
+
+}
+
 
 
 
   return(
-    <div className="flex  px-10  ">
+    <div >
 
-    <div className="flex justify-center w-4/5">
-   <MovieList catalog={catalog} removefromCart={cardMove}/>
 
-    </div>
-    <CheckOut />
+
+    { emptyCart ? <div className="flex justify-center items-center w-full"> <p className="text-5xl font-bold">Cart is empty!!!</p> </div>: <div className="flex  px-10  "> <div className="flex justify-center w-4/5">
+      <MovieList  manageClearCart={ManageClearCart} catalog={catalog} removefromCart={cardMove}/>
+
+      </div>
+      <CheckOut />
+      </div>
+    }
+
     </div>
   )
 
@@ -21,14 +33,15 @@ export function Cart({catalog,cardMove}:Cart) {
 interface Cart{
   catalog:MovieDetails[];
   cardMove:any;
-  
+
 }
 interface Imovielist{
   catalog:MovieDetails[];
-  removefromCart:any
+  removefromCart:any;
+  manageClearCart:any;
 }
 
-function MovieList({catalog,removefromCart}:Imovielist) {
+function MovieList({catalog,removefromCart,manageClearCart}:Imovielist) {
 
 
 
@@ -41,8 +54,8 @@ function MovieList({catalog,removefromCart}:Imovielist) {
 
    </div>
    <div className="flow-root">
-        <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-        {catalog.map(movie=><List movie={movie} removeFromCart={removefromCart}/>)}
+        <ul  className="divide-y divide-gray-200 dark:divide-gray-700">
+        {catalog.map(movie=><List movie={movie} removeFromCart={removefromCart} manageClearCart={manageClearCart}/>)}
 
         </ul>
    </div>
@@ -54,10 +67,11 @@ function MovieList({catalog,removefromCart}:Imovielist) {
 }
 interface movie{movie:MovieDetails;
   removeFromCart:any;
+  manageClearCart:any;
 };
 
 
-function List({movie,removeFromCart}:movie) {
+function List({movie,removeFromCart,manageClearCart}:movie) {
 
 
 return(
@@ -78,7 +92,9 @@ return(
                       {"K"+Math.floor(movie.rating*3)}
                     </div>
                 </div>
-<button type="button" onClick={()=>removeFromCart(movie)} className=" self-end  py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove</button>
+<button type="button" onClick={()=>{removeFromCart(movie)
+  manageClearCart();
+}} className=" self-end  py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Remove</button>
             </li>
 )
 

@@ -37,7 +37,7 @@ function removeFromCart(movie:MovieDetails){
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="shop" element={<Shop cardMove={cardMove} />} />
-           <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} />} />
+           <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} removeMovie={removeFromCart} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
 
         </Route>
