@@ -120,51 +120,51 @@ return results;
 
 }
 
-export function NavBar() {
+// export function NavBar() {
 
-return(
-  <nav className="flex list-none px-8 py-4 justify-center gap-16">
-    <li>
-      <button>
-        <h1>
-          STREAMSAFE
-        </h1>
-      </button>
+// return(
+//   <nav className="flex list-none px-8 py-4 justify-center gap-16">
+//     <li>
+//       <button>
+//         <h1>
+//           STREAMSAFE
+//         </h1>
+//       </button>
 
-    </li>
+//     </li>
 
-    <div className="flex gap-16">
-        <li className="ml-28">
-      Home
-    </li>
-    <li>
-      Shop
-    </li>
-    <li>
-      Watchlist
-    </li>
-    <li>
-      Cart
-    </li>
-    </div>
+//     <div className="flex gap-16">
+//         <li className="ml-28">
+//       Home
+//     </li>
+//     <li>
+//       Shop
+//     </li>
+//     <li>
+//       Watchlist
+//     </li>
+//     <li>
+//       Cart
+//     </li>
+//     </div>
 
-    <div className="flex gap-10">
+//     <div className="flex gap-10">
 
-        <SearchInput/>
-      <button>
-        <User/>
-      </button>
-    </div>
+//         <SearchInput/>
+//       <button>
+//         <User/>
+//       </button>
+//     </div>
 
-  </nav>
-)
+//   </nav>
+// )
 
-}
+// }
 
- export function SearchInput() {
+ export function SearchInput({setQuery}:ISearchInput) {
 
 const [toogleSearch, settoogleSearch] = useState(false);
-const [Query, setQuery] = useState("");
+
 
 function toogle() {
   if(toogleSearch===true){
@@ -191,6 +191,9 @@ let inputClassname="  bg-slate-100 rounded-md outline outline-offset-2 outline-1
     </div>
   )
 
+}
+interface ISearchInput{
+  setQuery:any;
 }
 
 function Hero(){

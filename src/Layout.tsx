@@ -1,8 +1,8 @@
 import { User } from "lucide-react";
 import { Outlet, Link } from "react-router-dom";
-import { SearchInput } from "./components/home";
+import { movieFetch, SearchInput } from "./components/home";
 
-export function Layout() {
+export function Layout({searchQuery}:setSearchQuery) {
 
 return(
   <>
@@ -34,7 +34,7 @@ return(
     <div className="flex gap-10">
 
 
-         <Link to="/Shop">   <SearchInput/></Link>
+         <Link to="/search">   <SearchInput setQuery={searchQuery}/></Link>
       <button>
         <User/>
       </button>
@@ -45,4 +45,8 @@ return(
   </>
 )
 
+}
+
+interface setSearchQuery{
+  searchQuery:any;
 }

@@ -39,6 +39,8 @@ export class MovieDetails {
 
     return this.id
   }
+
+
 }
 
 const fetch = require('node-fetch');

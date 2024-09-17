@@ -131,7 +131,7 @@ function tooglebuy() {
 
   setbought(!bought)
   if(bought){
-    //TODO remove
+    //TODO update movie detail
     removeMovie(movie)
     return;
   }

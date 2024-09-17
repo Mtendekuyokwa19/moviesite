@@ -8,11 +8,13 @@ import { MovieDetails, Shop } from "./components/shop";
 import { Layout } from './Layout';
 import { Cart } from './components/cart';
 import { Card } from './components/card';
+import Search from './components/search';
 
 export default function App() {
   let movie:MovieDetails[]=[];
 const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0) );
 const [catalog, setCatalog] = useState(movie);
+const [SearchQuery, setSearchQuery] = useState("");
 function cardMove(movie: React.SetStateAction<MovieDetails>) {
 
   setrouteCard(movie)
@@ -34,11 +36,12 @@ function removeFromCart(movie:MovieDetails){
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout searchQuery={(movieName: React.SetStateAction<string>)=>setSearchQuery(movieName)}  />}>
           <Route index element={<Home />} />
           <Route path="shop" element={<Shop cardMove={cardMove} />} />
            <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} removeMovie={removeFromCart} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
+            <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove}/>} />
 
         </Route>
       </Routes>
