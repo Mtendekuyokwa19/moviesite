@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { Loading, MovieCard, MovieDetails } from "./shop";
 
 export default function  Search({search,cardMove}:ISearchQuery) {
-const [foundMovie, setfoundMovie] = useState();
+const [foundMovie, setfoundMovie] = useState<MovieDetails>(new MovieDetails("",0,"","",[""],new Date(),"",0));
 
 
   useEffect(() => {
@@ -44,7 +44,7 @@ async function MovieFetch(movie:string) {
 function MovieResolve({movie,cardMove}:IMovieResolve) {
 
   return(
-    movie.name===undefined?<SearchLoading/>:<div className="grid grid-cols-4">
+    movie.name===undefined?<SearchLoading/>:<div className="grid grid-cols-5">
 
       <MovieCard movie={movie} cardMove={cardMove}/>
     </div>
@@ -60,7 +60,10 @@ interface IMovieResolve{
 function SearchLoading() {
 
   return(
-    <Loading type={"bard"} color={"red"}/>
+    <div className="flex justify-center items-center h-screen">
+
+    <Loading type={"bars"} color={"red"}/>
+    </div>
   )
 
 }
