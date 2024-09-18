@@ -3,8 +3,8 @@ import { movieFetch } from "./home";
 import { resolve } from "path";
 import { Loading, MovieCard, MovieDetails } from "./shop";
 
-export default function  Search({search,cardMove}:ISearchQuery) {
-const [foundMovie, setfoundMovie] = useState<MovieDetails>(new MovieDetails("",0,"","",[""],new Date(),"",0));
+export default function  Search({search,cardMove,toogleWatchlist}:ISearchQuery) {
+const [foundMovie, setfoundMovie] = useState<MovieDetails>(new MovieDetails(undefined,0,"","",[""],new Date(),"",0));
 
 
   useEffect(() => {
@@ -22,13 +22,14 @@ const [foundMovie, setfoundMovie] = useState<MovieDetails>(new MovieDetails("",0
   }, [search]);
 
   return(
-   <MovieResolve movie={foundMovie} cardMove={cardMove}/>
+   <MovieResolve movie={foundMovie} cardMove={cardMove} toogleWatchList={toogleWatchlist}/>
   )
 }
 
 interface ISearchQuery{
   search:string;
   cardMove:any;
+  toogleWatchlist:any;
 }
 
 async function MovieFetch(movie:string) {
@@ -41,12 +42,12 @@ async function MovieFetch(movie:string) {
 }
 
 
-function MovieResolve({movie,cardMove}:IMovieResolve) {
+function MovieResolve({movie,cardMove,toogleWatchList}:IMovieResolve) {
 
   return(
     movie.name===undefined?<SearchLoading/>:<div className="grid grid-cols-5">
 
-      <MovieCard movie={movie} cardMove={cardMove}/>
+      {/* <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchList}/> */}
     </div>
   )
 
@@ -54,6 +55,7 @@ function MovieResolve({movie,cardMove}:IMovieResolve) {
 interface IMovieResolve{
   movie:MovieDetails;
   cardMove:any;
+  toogleWatchList:any;
 
 }
 

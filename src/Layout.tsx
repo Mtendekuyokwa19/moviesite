@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import { Outlet, Link } from "react-router-dom";
 import { movieFetch, SearchInput } from "./components/home";
 
-export function Layout({searchQuery}:setSearchQuery) {
+export function Layout({searchQuery,cartitems}:setSearchQuery) {
 
 return(
   <>
@@ -27,7 +27,12 @@ return(
     </li>
 
     <li>
-        <Link to="/Cart">Cart</Link>
+        <Link to="/Cart">Cart
+        {cartitems>0?<sup className="text-white p-2 rounded-full font-bold bg-lime-900">{cartitems}</sup>:<span></span>} </Link>
+    </li>
+
+    <li>
+      <Link to={"/WatchList"}>WatchList</Link>
     </li>
     </div>
 
@@ -49,4 +54,5 @@ return(
 
 interface setSearchQuery{
   searchQuery:any;
+  cartitems:number;
 }

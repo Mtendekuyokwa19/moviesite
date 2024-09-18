@@ -9,7 +9,7 @@ import { Card } from "./card";
 //TODO search
 export class MovieDetails {
 
-  name:string;
+  name:string|undefined;
   rating:number;
   description:string;
   category:string;
@@ -21,9 +21,10 @@ export class MovieDetails {
   voteAverage!: number;
   voteCount!: number;
   inCart:boolean;
+  inWatchList!:boolean;
 
 
-  constructor(name:string,rating:number,description:string,category:string,actors:string[],year:Date,image:string,id:number) {
+  constructor(name:string|undefined,rating:number,description:string,category:string,actors:string[],year:Date,image:string,id:number) {
     this.name=name;
     this.rating=rating;
     this.description=description;
@@ -33,12 +34,30 @@ export class MovieDetails {
     this.image="http://image.tmdb.org/t/p/w500"+image;
     this.id=id;
     this.inCart=false;
+    this.inWatchList=false;
   }
 
   getExtraInfo(){
 
     return this.id
   }
+IsInWatchList(Movies:MovieDetails[]){
+
+  for (let i = 0; i < Movies.length; i++) {
+    if(this===Movies[i]){
+      return true
+    }
+
+  }
+
+  return false;
+
+}
+
+toogleFromWatchlist(){
+  this.inWatchList=!this.inWatchList;
+}
+
 
 
 }
@@ -55,8 +74,11 @@ const options = {
 };
 interface IShop{
   cardMove:any;
+  toogleWatchList:any;
+  Watchlist:MovieDetails[];
+
 }
-export function Shop({cardMove}:IShop) {
+export function Shop({cardMove,toogleWatchList,Watchlist}:IShop) {
 
   const [loading, setloading] = useState(true);
 
@@ -120,17 +142,17 @@ export function Shop({cardMove}:IShop) {
   }, []);
 
 
-  return loading?<div className="flex flex-col h-screen justify-center items-center"><Loading type={"bars"} color={"red"}/></div>:<BestOfAction movies={movieCollection} cardMove={cardMove}/>
+  return loading?<div className="flex flex-col h-screen justify-center items-center"><Loading type={"bars"} color={"red"}/></div>:<BestOfAction movies={movieCollection} cardMove={cardMove} toogleWatchlist={toogleWatchList} MovieList={Watchlist}/>
 
 }
 
-function BestOfAction({movies,cardMove}:IBestofAction){
+function BestOfAction({movies,cardMove,toogleWatchlist,MovieList}:IBestofAction){
 
 
 
   return(
   <div className="grid grid-cols-4 grid-rows-6 gap-y-20">
-    {movies.map(movie=> <MovieCard movie={movie} cardMove={cardMove}/>)}
+    {movies.map(movie=> <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchlist} MovieList={MovieList} />)}
   </div>
 
   )
@@ -139,18 +161,25 @@ interface IBestofAction{
 
   movies:MovieDetails[];
   cardMove:any;
+  toogleWatchlist:any;
+  MovieList:MovieDetails[];
 }
 
 interface IMovieCard{
   movie:MovieDetails;
   cardMove:any;
+  manageWatchlist:any;
+  MovieList:MovieDetails[];
 
 }
-export function MovieCard({movie,cardMove}:IMovieCard) {
-  const [watched,setWatched]=useState(true)
+export function MovieCard({movie,cardMove,manageWatchlist,MovieList}:IMovieCard) {
+
+  const [Watched, setWatched] = useState(movie.inWatchList);
 
   function toogleWatchlist() {
-   setWatched(!watched);
+
+   manageWatchlist(movie);
+
 
   }
 
@@ -171,11 +200,7 @@ export function MovieCard({movie,cardMove}:IMovieCard) {
 
 
 
-<div className="flex  justify-center items-center" onClick={toogleWatchlist}>
 
-
-  <AddToWatchList watched={watched} />
-</div>
 <div>
   <h1 className="font-bold text-xl">{movie.name}</h1>
   <p className="text-sm">{movie.category}</p>
