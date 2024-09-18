@@ -58,8 +58,8 @@ export function Remove(){
 }
 
 export function AddToWatchList({watched}:Iaddtowatchlist) {
-  
-  
+
+
 
   return(
     <svg className={watched?"fill-none h-7 w-7 text-slate-300":"h-7 w-7 text-red-600 fill-red-600"}  viewBox="0 0 24 24"   stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
@@ -69,4 +69,13 @@ export function AddToWatchList({watched}:Iaddtowatchlist) {
 interface Iaddtowatchlist{
 
   watched:boolean;
+}
+
+export function BackToShop() {
+
+  return(
+    <svg className="h-8 w-8 text-gray-200"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="5" y1="12" x2="11" y2="18" />  <line x1="5" y1="12" x2="11" y2="6" /></svg>
+
+  )
+
 }

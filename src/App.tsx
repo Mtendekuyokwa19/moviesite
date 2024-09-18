@@ -67,7 +67,7 @@ function ToogleWatchlist(movie:MovieDetails){
           <Route path="shop" element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />
            <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} removeMovie={removeFromCart} movies={Watchs} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
-            <Route path="WatchList" element={<WatchList movieset={watches} RemoveMovieset={RemovefromWatchlist}/>} />
+            <Route path="WatchList" element={<WatchList movieset={watches} RemoveMovieset={RemovefromWatchlist} cartitems={catalog.length}/>} />
             <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />
 
         </Route>
