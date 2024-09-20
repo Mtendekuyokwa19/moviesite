@@ -31,7 +31,8 @@ export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
 <StatisticsOnVotes/>
 <div className="flex flex-col gap-2">
    <h1 className="font-bold text-left">Saved Playlist</h1>
-   <TinyCard/>
+
+   {movieset.length>0?movieset.map(movie=><TinyCard movie={movie}/> ): <div><h1 className="font-bold">Watchlist Is Empty</h1> </div> }
 </div>
       </div>
 
@@ -105,7 +106,10 @@ function Sidebar({cartitems}:Iwatchlist){
   )
 }
 
-function TinyCard() {
+interface ITinyCard{
+   movie:MovieDetails;
+}
+function TinyCard({movie}:ITinyCard) {
 
 
    return(
@@ -116,11 +120,11 @@ function TinyCard() {
 
          <div className="flex flex-col w-full">
             <div>
-               <h1 className="font-bold text-lg">The Mandolorian</h1>
-               <p className="text-sm">the man from uncle is a man from the long movieser</p>
+               <h1 className="font-bold text-lg">{movie.name}</h1>
+               <p className="text-sm">{movie.description}</p>
                <div className="flex gap-1">
                <StartCategoryIcon/>
-               <p>4.4</p>
+               <p>{movie.rating}</p>
                </div>
 
             </div>

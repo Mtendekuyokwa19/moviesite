@@ -14,11 +14,11 @@ import { WatchList } from "./components/watchlist";
 
 export default function App() {
   let movie:MovieDetails[]=[];
-  let watches:MovieDetails[]=[];
+  let watchlist:MovieDetails[]=[];
 const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0) );
 const [catalog, setCatalog] = useState(movie);
 const [SearchQuery, setSearchQuery] = useState("");
-const [Watchs, setWatchs] = useState<MovieDetails[]>(watches);
+const [Watchs, setWatchs] = useState<MovieDetails[]>(watchlist);
 function cardMove(movie: React.SetStateAction<MovieDetails>) {
 
   setrouteCard(movie)
@@ -39,11 +39,12 @@ function removeFromCart(movie:MovieDetails){
 
 function AddtoWatchlist(movie:MovieDetails) {
 movie.toogleFromWatchlist()
-  setWatchs([...watches,movie])
+  setWatchs([...Watchs,movie])
+console.log(Watchs)
 
 }
 function RemovefromWatchlist(movie:MovieDetails) {
-  let movieList=watches;
+  let movieList=watchlist;
   movie.toogleFromWatchlist()
   movieList.splice(movieList.indexOf(movie),1);
   setWatchs([...movieList])
@@ -70,7 +71,7 @@ console.log(Watchs)
           <Route path="shop" element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />
            <Route path={"Card"} element={<Card movie={routeCard} AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
-            <Route path="WatchList" element={<WatchList movieset={watches} RemoveFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
+            <Route path="WatchList" element={<WatchList movieset={Watchs} RemoveFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
             <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />
 
         </Route>
