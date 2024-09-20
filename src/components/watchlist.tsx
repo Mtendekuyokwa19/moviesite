@@ -1,16 +1,51 @@
 import { Link } from "react-router-dom"
 import { MovieDetails } from "./shop"
+import { StartCategoryIcon } from "./svg";
+import { Chart } from "chart.js";
 
-export  function WatchList({movieset,RemoveMovieset,cartitems}:Iwatchlist){
+
+
+
+import React, { PureComponent } from 'react';
+import {  Pie, Legend, Tooltip} from 'recharts';
+import { PieChart,  Sector, Cell, ResponsiveContainer } from 'recharts';
+
+
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,} from 'recharts';
+
+
+import { LineChart, Line, XAxis, YAxis, CartesianGrid} from 'recharts';
+
+
+
+
+
+export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
 
   return(
-   <Sidebar movieset={[]} RemoveMovieset={undefined} cartitems={cartitems}/>
+   <div className="grid grid-cols-4 gap-2">
+
+   <Sidebar movieset={[]} RemoveFromWatchlist={undefined} cartitems={cartitems}/>
+   <div className="flex w-full col-span-3  p-4">
+      <div className="flex flex-col gap-3">
+<StatisticsOnVotes/>
+<div className="flex flex-col gap-2">
+   <h1 className="font-bold text-left">Saved Playlist</h1>
+   <TinyCard/>
+</div>
+      </div>
+
+
+   <SecondGraph/>
+
+   </div>
+   </div>
   )
 }
 
 interface Iwatchlist{
   movieset:MovieDetails[];
-  RemoveMovieset:any;
+  RemoveFromWatchlist:any;
   cartitems:number;
 }
 
@@ -27,7 +62,7 @@ function Sidebar({cartitems}:Iwatchlist){
    </svg>
 </button>
 
-<aside id="default-sidebar" className="  fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+<aside id="default-sidebar" className="    w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
    <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <ul className="space-y-2 font-medium py-10">
          <li>
@@ -68,4 +103,167 @@ function Sidebar({cartitems}:Iwatchlist){
     </div>
 
   )
+}
+
+function TinyCard() {
+
+
+   return(
+      <div className="flex gap-3 border border-slate-400 rounded-lg p-2">
+         <div >
+            <img src={require("./img/mandalorian.jpg")} alt="" className="h-32 rounded-lg" />
+         </div>
+
+         <div className="flex flex-col w-full">
+            <div>
+               <h1 className="font-bold text-lg">The Mandolorian</h1>
+               <p className="text-sm">the man from uncle is a man from the long movieser</p>
+               <div className="flex gap-1">
+               <StartCategoryIcon/>
+               <p>4.4</p>
+               </div>
+
+            </div>
+            <button className="justify-self-end self-end py-2 px-5  text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+               Remove
+            </button>
+         </div>
+      </div>
+   )
+
+}
+
+
+function StatisticsOnVotes() {
+
+      return(
+         <div className=" bg-slate-200 flex flex-col justify-center items-center rounded-3xl">
+            <div>
+               <VotesCard/>
+
+            </div>
+            <h1 className="text-black font-bold ">Distribution Of votes</h1>
+
+         </div>
+      )
+}
+
+
+
+const data01 = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
+  { name: 'Group E', value: 278 },
+  { name: 'Group F', value: 189 },
+];
+
+const data02 = [
+  { name: 'Group A', value: 2400 },
+  { name: 'Group B', value: 4567 },
+  { name: 'Group C', value: 1398 },
+  { name: 'Group D', value: 9800 },
+  { name: 'Group E', value: 3908 },
+  { name: 'Group F', value: 4800 },
+];
+
+export default class VotesCard extends PureComponent {
+
+
+  render() {
+    return (
+
+        <PieChart width={330} height={220}>
+          <Pie
+            dataKey="value"
+            isAnimationActive={false}
+            data={data01}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            fill="#8884d8"
+            label
+          />
+
+          <Tooltip />
+        </PieChart>
+
+    );
+  }
+}
+
+const data = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
+
+export  class SecondGraph extends PureComponent {
+  static demoUrl = 'https://codesandbox.io/p/sandbox/line-chart-width-xaxis-padding-8v7952';
+
+  render() {
+    return (
+
+        <LineChart
+          width={600}
+          height={500}
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+        </LineChart>
+
+    );
+  }
 }

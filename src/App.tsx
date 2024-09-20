@@ -11,6 +11,7 @@ import { Card } from './components/card';
 import Search from './components/search';
 import { WatchList } from "./components/watchlist";
 
+
 export default function App() {
   let movie:MovieDetails[]=[];
   let watches:MovieDetails[]=[];
@@ -51,23 +52,25 @@ function RemovefromWatchlist(movie:MovieDetails) {
 
 
 function ToogleWatchlist(movie:MovieDetails){
+console.log(Watchs)
   if(()=>movie.IsInWatchList(Watchs)){
     RemovefromWatchlist(movie)
     return
   }
   AddtoWatchlist(movie)
 
+
 }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout searchQuery={(movieName: React.SetStateAction<string>) => setSearchQuery(movieName)} cartitems={catalog.length}  />}>
+        <Route path="/" element={<Layout  searchQuery={(movieName: React.SetStateAction<string>) => setSearchQuery(movieName)} cartitems={catalog.length}  />}>
           <Route index element={<Home />} />
           <Route path="shop" element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />
-           <Route path="Card" element={<Card movie={routeCard} AddtoCart={AddtoCart} removeMovie={removeFromCart} movies={Watchs} />} />
+           <Route path={"Card"} element={<Card movie={routeCard} AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
-            <Route path="WatchList" element={<WatchList movieset={watches} RemoveMovieset={RemovefromWatchlist} cartitems={catalog.length}/>} />
+            <Route path="WatchList" element={<WatchList movieset={watches} RemoveFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
             <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />
 
         </Route>

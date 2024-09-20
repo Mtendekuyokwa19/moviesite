@@ -512,7 +512,7 @@ const [movieshown, setmovieshown] = useState(0);
 
 
 
-     <img src={movie[movieshown].link} alt="" className="h-1/2 rounded-md" />
+     <img src={movie[movieshown]?.link} alt="" className="h-1/2 rounded-md" />
          <div className="flex justify-center items-center flex-col">
     <div>
   {accordianQueries.map(query=><AccordianBar question={query.question} response={query.response} changemovie={(index:number)=>setmovieshown(3-index)} index={accordianQueries.indexOf(query)}/>)}

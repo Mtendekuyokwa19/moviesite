@@ -7,7 +7,7 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import { Link } from "react-router-dom";
 
 
-export function Card({movie,AddtoCart,removeMovie,movies}:ICard) {
+export function Card({movie,AddtoCart,toogleWatchlist,movies}:ICard) {
 let backdrop=movie.image;
 const [MovieAnalysis, setMovieAnanlysis] = useState(new MovieCardSet());
 
@@ -29,7 +29,7 @@ useEffect(() => {
 
 <div className="flex flex-col justify-center items-center h-screen">
 
-    <MovieCard movie={movie} AddtoCart={AddtoCart} removeMovie={removeMovie} Movies={movies} />
+    <MovieCard movie={movie} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} Movies={movies} />
 </div>
     </div>
   )
@@ -43,11 +43,11 @@ interface ICard{
 
   movie:MovieDetails;
   AddtoCart:any;
-  removeMovie:any;
+  toogleWatchlist:any;
   movies:MovieDetails[]
 }
 
-function MovieCard({movie,AddtoCart,removeMovie,Movies}:ImovieCard) {
+function MovieCard({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard) {
 
 
 
@@ -67,7 +67,7 @@ function MovieCard({movie,AddtoCart,removeMovie,Movies}:ImovieCard) {
       </div>
 
         <div className="flex bg-white z-10 h-3/5 justify-evenly flex-1  p-5 rounded-sm">
-          <MovieResearch movie={movie} AddtoCart={AddtoCart} removeMovie={removeMovie} Movies={Movies}/>
+          <MovieResearch movie={movie} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} Movies={Movies}/>
 
         </div>
     </div>
@@ -77,12 +77,12 @@ function MovieCard({movie,AddtoCart,removeMovie,Movies}:ImovieCard) {
 interface ImovieCard{
 movie:MovieDetails;
 AddtoCart:any;
-removeMovie:any;
+toogleWatchlist:any;
 Movies:MovieDetails[];
 }
 
 
-function MovieResearch({movie,AddtoCart,removeMovie,Movies}:ImovieCard){
+function MovieResearch({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard){
 
   return(
     <div className="flex flex-col gap-5 p-5">
@@ -97,7 +97,7 @@ function MovieResearch({movie,AddtoCart,removeMovie,Movies}:ImovieCard){
     <p className="text-md ">{movie.description}</p>
 
 
-    <MovieButton AddtoCart={AddtoCart} movie={movie} removeMovie={removeMovie} Movies={Movies} />
+    <MovieButton AddtoCart={AddtoCart} movie={movie} toogleWatchlist={toogleWatchlist} Movies={Movies} />
     </div>
   )
 }
@@ -136,7 +136,7 @@ interface IShootingDetails{
 }
 
 
-function MovieButton({movie,AddtoCart,removeMovie,Movies}:ImovieCard) {
+function MovieButton({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard) {
   const [bought, setbought] = useState(movie.inCart);
 const [watchlist, setwatchlist] = useState(movie.IsInWatchList(Movies));
 function tooglebuy() {
@@ -144,7 +144,7 @@ function tooglebuy() {
   setbought(!bought)
   if(bought){
     //TODO update movie detail
-    removeMovie(movie)
+    toogleWatchlist(movie)
     return;
   }
   AddtoCart(movie)
@@ -152,10 +152,9 @@ function tooglebuy() {
 
 function toogleWatchList() {
    setwatchlist(!watchlist);
-  if(movie.inWatchList){
-    removeMovie(movie)
-    return
-  }
+
+    toogleWatchlist(movie)
+
 
 
 
