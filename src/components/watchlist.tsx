@@ -1,22 +1,18 @@
 import { Link } from "react-router-dom"
 import { MovieDetails } from "./shop"
 import { StartCategoryIcon } from "./svg";
-import { Chart } from "chart.js";
 
 
 
 
-import React, { PureComponent, useState } from 'react';
+import { PureComponent } from 'react';
 import {  Pie, Legend, Tooltip} from 'recharts';
-import { PieChart,  Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart } from 'recharts';
 
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,} from 'recharts';
 
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid} from 'recharts';
-import { runInThisContext } from "vm";
-import { type } from "os";
 
 
 
@@ -24,12 +20,15 @@ import { type } from "os";
 
 export  function WatchList({movieset,removeFromWatchlist,cartitems}:Iwatchlist){
    let votes:DataForVotes[]=[];
+   let generalStatics:LineGraph[]=[];
+
 
 
 
    for (let i = 0; i < movieset.length; i++) {
 
       votes.push(new DataForVotes(movieset[i].name,movieset[i].voteCount))
+      generalStatics.push(new LineGraph(movieset[i].name,movieset[i].voteCount,movieset[i].rating,movieset[i].voteAverage))
 
    }
 
@@ -53,7 +52,7 @@ export  function WatchList({movieset,removeFromWatchlist,cartitems}:Iwatchlist){
       </div>
 
 
-   <SecondGraph/>
+   <SecondGraph stats={generalStatics}/>
 
    </div>
    </div>
@@ -273,7 +272,21 @@ const data = [
   },
 ];
 
-export  class SecondGraph extends PureComponent {
+class LineGraph extends DataForVotes{
+   amt: any;
+   voteAverage: any;
+
+   constructor(name:string|undefined,votes:number,rating:number,voteAverage:number){
+      super(name,votes);
+      this.amt=rating;
+      this.voteAverage=voteAverage;
+   }
+}
+type generalStats={
+   stats:LineGraph[];
+}
+
+export  class SecondGraph extends PureComponent<generalStats> {
   static demoUrl = 'https://codesandbox.io/p/sandbox/line-chart-width-xaxis-padding-8v7952';
 
   render() {
@@ -282,7 +295,7 @@ export  class SecondGraph extends PureComponent {
         <LineChart
           width={600}
           height={500}
-          data={data}
+          data={this.props.stats}
           margin={{
             top: 5,
             right: 30,
@@ -295,8 +308,8 @@ export  class SecondGraph extends PureComponent {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="voteAverage" stroke="#8884d8" activeDot={{ r: 8 }} />
+
         </LineChart>
 
     );
