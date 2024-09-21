@@ -15,6 +15,8 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,} from 'r
 
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid} from 'recharts';
+import { runInThisContext } from "vm";
+import { type } from "os";
 
 
 
@@ -23,13 +25,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid} from 'recharts';
 export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
 
   return(
-   <div className="grid grid-cols-4 gap-2">
+   <div className="grid grid-cols-6 gap-2 overflow-hidden">
 
    <Sidebar movieset={[]} RemoveFromWatchlist={undefined} cartitems={cartitems}/>
-   <div className="flex w-full col-span-3  p-4">
-      <div className="flex flex-col gap-3">
+   <div className="flex w-full col-start-2 col-span-5  p-4">
+      <div className="flex flex-col gap-1">
 <StatisticsOnVotes/>
-<div className="flex flex-col gap-2">
+<div className="flex flex-col gap-2 overflow-y-auto">
    <h1 className="font-bold text-left">Saved Playlist</h1>
 
    {movieset.length>0?movieset.map(movie=><TinyCard movie={movie}/> ): <div><h1 className="font-bold">Watchlist Is Empty</h1> </div> }
@@ -113,15 +115,15 @@ function TinyCard({movie}:ITinyCard) {
 
 
    return(
-      <div className="flex gap-3 border border-slate-400 rounded-lg p-2">
+      <div className="flex gap-3 border border-slate-400 rounded-lg p-2 ">
          <div >
-            <img src={require("./img/mandalorian.jpg")} alt="" className="h-32 rounded-lg" />
+            <img src={movie?.image} alt="" className="h-32 rounded-lg" />
          </div>
 
          <div className="flex flex-col w-full">
             <div>
                <h1 className="font-bold text-lg">{movie.name}</h1>
-               <p className="text-sm">{movie.description}</p>
+               <p className="text-sm">{movie.description.split("").length>120?movie.description.split("").splice(0,120).join(""):movie.description}</p>
                <div className="flex gap-1">
                <StartCategoryIcon/>
                <p>{movie.rating}</p>
@@ -163,26 +165,36 @@ const data01 = [
   { name: 'Group F', value: 189 },
 ];
 
-const data02 = [
-  { name: 'Group A', value: 2400 },
-  { name: 'Group B', value: 4567 },
-  { name: 'Group C', value: 1398 },
-  { name: 'Group D', value: 9800 },
-  { name: 'Group E', value: 3908 },
-  { name: 'Group F', value: 4800 },
-];
+class DataForVotes {
+   movieName: string;
+   votes: number;
+   constructor(movieName:string,votes:number) {
+      this.movieName=movieName;
+      this.votes=votes;
 
-export default class VotesCard extends PureComponent {
+   }
+}
+
+type votingList={
+   votes:DataForVotes[];
+}
+export default class VotesCard extends PureComponent <votingList>{
+
+
+
+
+
 
 
   render() {
+   const {votes}=this.props;
     return (
 
         <PieChart width={330} height={220}>
           <Pie
             dataKey="value"
             isAnimationActive={false}
-            data={data01}
+            data={votes}
             cx="50%"
             cy="50%"
             outerRadius={80}
