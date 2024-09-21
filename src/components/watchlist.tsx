@@ -6,7 +6,7 @@ import { Chart } from "chart.js";
 
 
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useState } from 'react';
 import {  Pie, Legend, Tooltip} from 'recharts';
 import { PieChart,  Sector, Cell, ResponsiveContainer } from 'recharts';
 
@@ -22,31 +22,33 @@ import { type } from "os";
 
 
 
-export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
-   let panda=new DataForVotes("panda",200);
-    let kanye=new DataForVotes("power",200);
-     let yeezy=new DataForVotes("yeezy",800);
-      let rizz=new DataForVotes("extacy",100);
-   const data01 = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-  { name: 'Group E', value: 278 },
-  { name: 'Group F', value: 189 },
-];
+export  function WatchList({movieset,removeFromWatchlist,cartitems}:Iwatchlist){
+   let votes:DataForVotes[]=[];
+
+
+
+   for (let i = 0; i < movieset.length; i++) {
+
+      votes.push(new DataForVotes(movieset[i].name,movieset[i].voteCount))
+
+   }
+
+
+
+   let ErrorMessage=new DataForVotes("Playlist is empty",404);
+
 
   return(
    <div className="grid grid-cols-6 gap-2 overflow-hidden">
 
-   <Sidebar movieset={[]} RemoveFromWatchlist={undefined} cartitems={cartitems}/>
+   <Sidebar cartitems={cartitems}/>
    <div className="flex w-full col-start-2 col-span-5  p-4">
       <div className="flex flex-col gap-1">
-<StatisticsOnVotes votes={[panda,yeezy,kanye,rizz]}/>
+<StatisticsOnVotes votes={votes.length===0?[ErrorMessage]:votes}/>
 <div className="flex flex-col gap-2 overflow-y-auto">
    <h1 className="font-bold text-left">Saved Playlist</h1>
 
-   {movieset.length>0?movieset.map(movie=><TinyCard movie={movie}/> ): <div><h1 className="font-bold">Watchlist Is Empty</h1> </div> }
+   {movieset.length>0?movieset.map(movie=><TinyCard movie={movie} removeFromWatchlist={removeFromWatchlist}/> ): <div><h1 className="font-bold">Watchlist Is Empty</h1> </div> }
 </div>
       </div>
 
@@ -60,11 +62,15 @@ export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
 
 interface Iwatchlist{
   movieset:MovieDetails[];
-  RemoveFromWatchlist:any;
+  removeFromWatchlist:any;
+
   cartitems:number;
 }
+type TSideBar={
+   cartitems:number;
+}
 
-function Sidebar({cartitems}:Iwatchlist){
+function Sidebar({cartitems}:TSideBar){
 
   return(
     <div>
@@ -122,8 +128,9 @@ function Sidebar({cartitems}:Iwatchlist){
 
 interface ITinyCard{
    movie:MovieDetails;
+   removeFromWatchlist:any;
 }
-function TinyCard({movie}:ITinyCard) {
+function TinyCard({movie,removeFromWatchlist}:ITinyCard) {
 
 
    return(
@@ -142,7 +149,7 @@ function TinyCard({movie}:ITinyCard) {
                </div>
 
             </div>
-            <button className="justify-self-end self-end py-2 px-5  text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            <button onClick={()=>removeFromWatchlist(movie)} className="justify-self-end self-end py-2 px-5  text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                Remove
             </button>
          </div>
@@ -178,9 +185,9 @@ const data01 = [
 ];
 
 class DataForVotes {
-   name: string;
+   name: string|undefined;
    value: number;
-   constructor(movieName:string,votes:number) {
+   constructor(movieName:string|undefined,votes:number) {
       this.name=movieName;
       this.value=votes;
 

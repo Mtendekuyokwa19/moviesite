@@ -44,7 +44,7 @@ console.log(Watchs)
 
 }
 function RemovefromWatchlist(movie:MovieDetails) {
-  let movieList=watchlist;
+  let movieList=Watchs;
   movie.toogleFromWatchlist()
   movieList.splice(movieList.indexOf(movie),1);
   setWatchs([...movieList])
@@ -71,7 +71,7 @@ console.log(Watchs)
           <Route path="shop" element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />
            <Route path={"Card"} element={<Card movie={routeCard} AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
-            <Route path="WatchList" element={<WatchList movieset={Watchs} RemoveFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
+            <Route path="WatchList" element={<WatchList movieset={Watchs} removeFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
             <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />
 
         </Route>

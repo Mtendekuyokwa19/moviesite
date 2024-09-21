@@ -23,7 +23,7 @@ export class MovieDetails {
   voteCount!: number;
   inCart:boolean;
   inWatchList!:boolean;
-  votingAverage!: number;
+
 
 
   constructor(name:string|undefined,rating:number,description:string,category:string,actors:string[],year:Date,image:string,id:number) {
@@ -61,10 +61,13 @@ toogleFromWatchlist(){
 }
 
   setVotingAverage(votingAverage:number){
-    this.votingAverage=votingAverage;
+    this.voteAverage=votingAverage;
 
   }
+setVoteCount(voteCount:number){
 
+  this.voteCount=voteCount;
+}
 
 }
 
@@ -120,9 +123,12 @@ export function Shop({cardMove,toogleWatchList,Watchlist}:IShop) {
 
 
 
-            resolve.results.forEach((movie: { original_title: string; vote_average: number; overview: string; release_date: string | number | Date; backdrop_path:string;id:number })=>{
+            resolve.results.forEach((movie: {
+              vote_count: number; original_title: string; vote_average: number; overview: string; release_date: string | number | Date; backdrop_path:string;id:number
+})=>{
             let newMovie=new MovieDetails(movie.original_title,movie.vote_average,movie.overview,"movie",["kanye","west"],new Date(movie.release_date),movie.backdrop_path,movie.id)
               newMovie.setVotingAverage((movie.vote_average));
+              newMovie.setVoteCount(movie.vote_count)
               moviesArray.push(newMovie);
             })
 
