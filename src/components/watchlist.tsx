@@ -23,6 +23,18 @@ import { type } from "os";
 
 
 export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
+   let panda=new DataForVotes("panda",200);
+    let kanye=new DataForVotes("power",200);
+     let yeezy=new DataForVotes("yeezy",800);
+      let rizz=new DataForVotes("extacy",100);
+   const data01 = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
+  { name: 'Group E', value: 278 },
+  { name: 'Group F', value: 189 },
+];
 
   return(
    <div className="grid grid-cols-6 gap-2 overflow-hidden">
@@ -30,7 +42,7 @@ export  function WatchList({movieset,RemoveFromWatchlist,cartitems}:Iwatchlist){
    <Sidebar movieset={[]} RemoveFromWatchlist={undefined} cartitems={cartitems}/>
    <div className="flex w-full col-start-2 col-span-5  p-4">
       <div className="flex flex-col gap-1">
-<StatisticsOnVotes/>
+<StatisticsOnVotes votes={[panda,yeezy,kanye,rizz]}/>
 <div className="flex flex-col gap-2 overflow-y-auto">
    <h1 className="font-bold text-left">Saved Playlist</h1>
 
@@ -140,12 +152,12 @@ function TinyCard({movie}:ITinyCard) {
 }
 
 
-function StatisticsOnVotes() {
+function StatisticsOnVotes({votes}:votingList) {
 
       return(
          <div className=" bg-slate-200 flex flex-col justify-center items-center rounded-3xl">
             <div>
-               <VotesCard/>
+               <VotesCard votes={votes}/>
 
             </div>
             <h1 className="text-black font-bold ">Distribution Of votes</h1>
@@ -166,11 +178,11 @@ const data01 = [
 ];
 
 class DataForVotes {
-   movieName: string;
-   votes: number;
+   name: string;
+   value: number;
    constructor(movieName:string,votes:number) {
-      this.movieName=movieName;
-      this.votes=votes;
+      this.name=movieName;
+      this.value=votes;
 
    }
 }

@@ -74,7 +74,10 @@ return results;
     movies.then((resolve)=>{
 
         for (let index = 0; index < resolve.length; index++) {
-       moviesCollections.push(new MovieTrending(resolve[index].Title,index+1,parseFloat(resolve[index].imdbRating),resolve[index].Genre,resolve[index].Type,resolve[index].Poster ))
+          let newMovie=new MovieTrending(resolve[index].Title,index+1,parseFloat(resolve[index].imdbRating),resolve[index].Genre,resolve[index].Type,resolve[index].Poster )
+       newMovie.setVotingAverage(parseInt(resolve[index].vote_average));
+       console.log(parseInt(resolve[index].vote_average));
+          moviesCollections.push(newMovie)
 
       }
 
@@ -324,6 +327,7 @@ class MovieTrending{
 
   setVotingAverage(votingAverage:number){
     this.votingAverage=votingAverage;
+    console.log(votingAverage)
   }
 }
 

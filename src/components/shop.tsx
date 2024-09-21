@@ -9,6 +9,7 @@ import { Card } from "./card";
 //TODO search
 export class MovieDetails {
 
+
   name:string|undefined;
   rating:number;
   description:string;
@@ -22,6 +23,7 @@ export class MovieDetails {
   voteCount!: number;
   inCart:boolean;
   inWatchList!:boolean;
+  votingAverage!: number;
 
 
   constructor(name:string|undefined,rating:number,description:string,category:string,actors:string[],year:Date,image:string,id:number) {
@@ -58,6 +60,10 @@ toogleFromWatchlist(){
   this.inWatchList=!this.inWatchList;
 }
 
+  setVotingAverage(votingAverage:number){
+    this.votingAverage=votingAverage;
+
+  }
 
 
 }
@@ -113,9 +119,11 @@ export function Shop({cardMove,toogleWatchList,Watchlist}:IShop) {
       movies.then((resolve)=>{
 
 
-          console.log(resolve.results)
+
             resolve.results.forEach((movie: { original_title: string; vote_average: number; overview: string; release_date: string | number | Date; backdrop_path:string;id:number })=>{
-              moviesArray.push(new MovieDetails(movie.original_title,movie.vote_average,movie.overview,"movie",["kanye","west"],new Date(movie.release_date),movie.backdrop_path,movie.id));
+            let newMovie=new MovieDetails(movie.original_title,movie.vote_average,movie.overview,"movie",["kanye","west"],new Date(movie.release_date),movie.backdrop_path,movie.id)
+              newMovie.setVotingAverage((movie.vote_average));
+              moviesArray.push(newMovie);
             })
 
             setmovieCollection(moviesArray);
