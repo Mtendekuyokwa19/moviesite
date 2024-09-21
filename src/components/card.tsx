@@ -153,7 +153,7 @@ function tooglebuy() {
 function toogleWatchList() {
    setwatchlist(!watchlist);
 
-    toogleWatchlist(movie)
+    toogleWatchlist(movie,watchlist)
 
 
 

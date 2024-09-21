@@ -307,6 +307,8 @@ class MovieTrending{
   type:string;
   category:string;
   link:string;
+  votingAverage!:number;
+
 
   constructor(name:string,position:number,rating:number,type:string,category:string,link:string){
 
@@ -318,6 +320,10 @@ class MovieTrending{
     this.link=link;
 
 
+  }
+
+  setVotingAverage(votingAverage:number){
+    this.votingAverage=votingAverage;
   }
 }
 

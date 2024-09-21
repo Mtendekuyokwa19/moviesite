@@ -52,9 +52,9 @@ function RemovefromWatchlist(movie:MovieDetails) {
 }
 
 
-function ToogleWatchlist(movie:MovieDetails){
+function ToogleWatchlist(movie:MovieDetails,IsInWatchList:boolean){
 console.log(Watchs)
-  if(()=>movie.IsInWatchList(Watchs)){
+  if(IsInWatchList){
     RemovefromWatchlist(movie)
     return
   }
