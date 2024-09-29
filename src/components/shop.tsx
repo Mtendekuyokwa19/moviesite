@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from "react"
 import { AddToWatchList, StartCategoryIcon, View } from "./svg"
 import { resolve } from "path";
 import ReactLoading from 'react-loading';
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Outlet, Route, Routes, useOutletContext } from "react-router-dom";
 import { Card } from "./card";
 
 
@@ -186,6 +186,9 @@ interface IMovieCard{
   MovieList:MovieDetails[];
 
 }
+type movieOutlet={
+  movie:MovieDetails
+}
 export function MovieCard({movie,cardMove,manageWatchlist,MovieList}:IMovieCard) {
 
   const [Watched, setWatched] = useState(movie.inWatchList);
@@ -202,7 +205,8 @@ export function MovieCard({movie,cardMove,manageWatchlist,MovieList}:IMovieCard)
     <div className="p-8 h-36 transition-all duration-75 ease-in-out hover:scale-105 card">
 
 
-      <Link to="/Card" >
+      <Link to={`card/${movie.name}`} >
+      <Outlet context={{movie} satisfies movieOutlet }/>
 
       <img src={movie.image} alt="" className=" rounded-md" onClick={()=>cardMove(movie)} />
       </Link>
@@ -310,4 +314,8 @@ useEffect(() => {
   </div>
 </dialog>
   )
+}
+
+export function useMovie(){
+  return useOutletContext<movieOutlet>()
 }

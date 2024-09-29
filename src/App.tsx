@@ -10,6 +10,8 @@ import { Cart } from './components/cart';
 import { Card } from './components/card';
 import Search from './components/search';
 import { WatchList } from "./components/watchlist";
+import { Error } from './components/error';
+import MovieDetailsfetcher from './components/movieDetailsfetcher';
 
 
 export default function App() {
@@ -68,8 +70,16 @@ console.log(Watchs)
       <Routes>
         <Route path="/" element={<Layout  searchQuery={(movieName: React.SetStateAction<string>) => setSearchQuery(movieName)} cartitems={catalog.length}  />}>
           <Route index element={<Home />} />
-          <Route path="shop" element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />
-           <Route path={"Card"} element={<Card movie={routeCard} AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
+          <Route path="shop"
+          errorElement=<Error/>
+
+          children={[
+            <Route index={true} element={<Shop cardMove={cardMove} toogleWatchList={ToogleWatchlist} Watchlist={Watchs} />} />,
+            <Route path={"card/:name"} element={<MovieDetailsfetcher AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
+          ]}
+
+          />
+
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
             <Route path="WatchList" element={<WatchList movieset={Watchs} removeFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
             <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />

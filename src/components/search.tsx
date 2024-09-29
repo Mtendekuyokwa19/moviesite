@@ -13,6 +13,10 @@ const [foundMovie, setfoundMovie] = useState<MovieDetails>(new MovieDetails(unde
     movie.then(result=>{
       let discoveredFilm=new MovieDetails(result.Title,parseFloat(result.imdbRating),result.Plot,result.Genre,[result.Actors],new Date(result.Released),result.Poster,parseInt(result.imdbID));
       discoveredFilm.image=result.Poster;
+      discoveredFilm.setVoteCount(parseInt(result.imdbVotes))
+      discoveredFilm.setVotingAverage(result.imdbRating)
+      console.log(discoveredFilm,result)
+
       setfoundMovie(discoveredFilm)
 
     })
@@ -47,7 +51,7 @@ function MovieResolve({movie,cardMove,toogleWatchList}:IMovieResolve) {
   return(
     movie.name===undefined?<SearchLoading/>:<div className="grid grid-cols-5">
 
-      {/* <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchList}/> */}
+      <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchList} MovieList={[]}/>
     </div>
   )
 

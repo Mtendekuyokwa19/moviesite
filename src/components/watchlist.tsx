@@ -27,11 +27,11 @@ export  function WatchList({movieset,removeFromWatchlist,cartitems}:Iwatchlist){
 
    for (let i = 0; i < movieset.length; i++) {
 
-      votes.push(new DataForVotes(movieset[i].name,movieset[i].voteCount))
+      votes.push(new DataForVotes(movieset[i].name as string,movieset[i].voteCount))
       generalStatics.push(new LineGraph(movieset[i].name,movieset[i].voteCount,movieset[i].rating,movieset[i].voteAverage))
 
    }
-
+console.log(generalStatics,movieset)
 
 
    let ErrorMessage=new DataForVotes("Playlist is empty",404);
@@ -41,20 +41,21 @@ export  function WatchList({movieset,removeFromWatchlist,cartitems}:Iwatchlist){
    <div className="grid grid-cols-6 gap-2 overflow-hidden">
 
    <Sidebar cartitems={cartitems}/>
-   <div className="flex w-full col-start-2 col-span-5  p-4">
+   {movieset.length===0? <div className="font-bold text-3xl flex justify-center w-screen"><p>Watchlist Is empty!!</p></div>:<div className="flex w-full col-start-2 col-span-5  p-4">
       <div className="flex flex-col gap-1">
 <StatisticsOnVotes votes={votes.length===0?[ErrorMessage]:votes}/>
 <div className="flex flex-col gap-2 overflow-y-auto">
    <h1 className="font-bold text-left">Saved Playlist</h1>
 
-   {movieset.length>0?movieset.map(movie=><TinyCard movie={movie} removeFromWatchlist={removeFromWatchlist}/> ): <div><h1 className="font-bold">Watchlist Is Empty</h1> </div> }
+   {movieset.map(movie=><TinyCard movie={movie} removeFromWatchlist={removeFromWatchlist}/>)}
 </div>
       </div>
 
 
    <SecondGraph stats={generalStatics}/>
 
-   </div>
+   </div> }
+
    </div>
   )
 }
@@ -83,7 +84,7 @@ function Sidebar({cartitems}:TSideBar){
 </button>
 
 <aside id="default-sidebar" className="    w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-   <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+   <div className="h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
       <ul className="space-y-2 font-medium py-10">
          <li>
             <Link to="/watchList" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -100,7 +101,6 @@ function Sidebar({cartitems}:TSideBar){
                   <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z"/>
                </svg>
                <span className="flex-1 ms-3 whitespace-nowrap">Shop</span>
-               <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">Pro</span>
             </Link>
          </li>
          <li>
@@ -174,7 +174,7 @@ function StatisticsOnVotes({votes}:votingList) {
 
 
 
-const data01 = [
+let data01 = [
   { name: 'Group A', value: 400 },
   { name: 'Group B', value: 300 },
   { name: 'Group C', value: 300 },
@@ -184,9 +184,9 @@ const data01 = [
 ];
 
 class DataForVotes {
-   name: string|undefined;
+   name: string;
    value: number;
-   constructor(movieName:string|undefined,votes:number) {
+   constructor(movieName:string,votes:number) {
       this.name=movieName;
       this.value=votes;
 
@@ -206,13 +206,14 @@ export default class VotesCard extends PureComponent <votingList>{
 
   render() {
    const {votes}=this.props;
+
     return (
 
         <PieChart width={330} height={220}>
           <Pie
             dataKey="value"
             isAnimationActive={false}
-            data={votes}
+            data={data01}
             cx="50%"
             cy="50%"
             outerRadius={80}
@@ -227,57 +228,14 @@ export default class VotesCard extends PureComponent <votingList>{
   }
 }
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+
 
 class LineGraph extends DataForVotes{
    amt: any;
    voteAverage: any;
 
    constructor(name:string|undefined,votes:number,rating:number,voteAverage:number){
-      super(name,votes);
+      super(name as string,votes);
       this.amt=rating;
       this.voteAverage=voteAverage;
    }
@@ -287,9 +245,10 @@ type generalStats={
 }
 
 export  class SecondGraph extends PureComponent<generalStats> {
-  static demoUrl = 'https://codesandbox.io/p/sandbox/line-chart-width-xaxis-padding-8v7952';
+
 
   render() {
+
     return (
 
         <LineChart

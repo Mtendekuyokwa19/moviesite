@@ -1,15 +1,18 @@
 import { url } from "inspector";
-import { MovieDetails } from "./shop";
+import { MovieDetails, useMovie } from "./shop";
 import { ChooseHeroBtns, movieFetch } from "./home";
 import { BackToShop, BuyNowIcon, StartCategoryIcon } from "./svg";
 import { useEffect, useState } from "react";
 import { StarFilledIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 
 
 export function Card({movie,AddtoCart,toogleWatchlist,movies}:ICard) {
-let backdrop=movie.image;
-const [MovieAnalysis, setMovieAnanlysis] = useState(new MovieCardSet());
+  const [MovieAnalysis, setMovieAnanlysis] = useState(new MovieCardSet());
+
+
+
+  let backdrop=movie.image;
 
 useEffect(() => {
   movieGot(movie.id.toString(),(movie:MovieCardSet)=>setMovieAnanlysis(movie))
@@ -61,10 +64,10 @@ function MovieCard({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard) {
         </Link>
 
       </div>
-      <div className="h-2/5 overflow-hidden">
+      {/* <div className="h-2/5 overflow-hidden">
 
-        <img src={movie.image}  className="w-screen rounded-2xl " alt="" />
-      </div>
+        <img src={movie?.image}  className="w-screen rounded-2xl " alt="" />
+      </div> */}
 
         <div className="flex bg-white z-10 h-3/5 justify-evenly flex-1  p-5 rounded-sm">
           <MovieResearch movie={movie} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} Movies={Movies}/>
