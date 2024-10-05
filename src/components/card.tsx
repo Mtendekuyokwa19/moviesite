@@ -11,7 +11,7 @@ export function Card({movie,AddtoCart,toogleWatchlist,movies}:ICard) {
   const [MovieAnalysis, setMovieAnanlysis] = useState(new MovieCardSet());
 
 
-
+console.log(movie,"here")
   let backdrop=movie.image;
 
 useEffect(() => {

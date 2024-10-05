@@ -82,7 +82,17 @@ console.log(Watchs)
 
             <Route path="Cart" element={<Cart catalog={catalog} cardMove={removeFromCart}  />} />
             <Route path="WatchList" element={<WatchList movieset={Watchs} removeFromWatchlist={RemovefromWatchlist} cartitems={catalog.length}/>} />
-            <Route path="Search" element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />
+            <Route path="Search"
+
+            children={
+
+              [
+                <Route index={true} element={<Search search={SearchQuery} cardMove={cardMove} toogleWatchlist={ToogleWatchlist}/>} />,
+                <Route path={"card/:name"} element={<MovieDetailsfetcher AddtoCart={AddtoCart} toogleWatchlist={ToogleWatchlist} movies={Watchs} />} />
+              ]
+            }
+
+            />
 
         </Route>
       </Routes>
