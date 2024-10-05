@@ -50,7 +50,7 @@ async function MovieFetch(movie:string) {
 function MovieResolve({movie,cardMove,toogleWatchList}:IMovieResolve) {
 
   return(
-    movie.name===undefined?<SearchLoading/>:<div className="flex justify-center items-center">
+    movie.name===undefined?<SearchLoading/>:<div className="grid grid-cols-5">
 
       <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchList} MovieList={[]}/>
     </div>

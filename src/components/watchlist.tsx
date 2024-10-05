@@ -38,16 +38,18 @@ console.log(generalStatics,movieset)
 
 
   return(
-   <div className="grid grid-cols-6 gap-2 overflow-hidden">
+   <div className="grid grid-cols-6 gap-2 overflow-hidden h-screen">
 
    <Sidebar cartitems={cartitems}/>
    {movieset.length===0? <div className="font-bold text-3xl flex justify-center w-screen"><p>Watchlist Is empty!!</p></div>:<div className="flex w-full col-start-2 col-span-5  p-4">
       <div className="flex flex-col gap-1">
 <StatisticsOnVotes votes={votes.length===0?[ErrorMessage]:votes}/>
-<div className="flex flex-col gap-2 overflow-y-auto">
+<div className="flex flex-col gap-2 ">
    <h1 className="font-bold text-left">Saved Playlist</h1>
+   <div className="overflow-y-scroll ">
 
    {movieset.map(movie=><TinyCard movie={movie} removeFromWatchlist={removeFromWatchlist}/>)}
+   </div>
 </div>
       </div>
 
@@ -73,7 +75,7 @@ type TSideBar={
 function Sidebar({cartitems}:TSideBar){
 
   return(
-    <div>
+    <div className="row-span-full flex flex-col h-full bg-gray-100 dark:bg-gray-800">
 
 
 <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -83,8 +85,8 @@ function Sidebar({cartitems}:TSideBar){
    </svg>
 </button>
 
-<aside id="default-sidebar" className="    w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-   <div className="h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
+<aside id="default-sidebar" className=" flex-1 row-span-full   w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+   <div className=" px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800 row-span-full h-full">
       <ul className="space-y-2 font-medium py-10">
          <li>
             <Link to="/watchList" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -188,7 +190,8 @@ class DataForVotes {
    value: number;
    constructor(movieName:string,votes:number) {
       this.name=movieName;
-      this.value=votes;
+      this.value=(typeof votes==="number")?votes:parseInt(votes);
+
 
    }
 }
@@ -206,6 +209,7 @@ export default class VotesCard extends PureComponent <votingList>{
 
   render() {
    const {votes}=this.props;
+   console.log(votes,data01)
 
     return (
 
@@ -213,7 +217,7 @@ export default class VotesCard extends PureComponent <votingList>{
           <Pie
             dataKey="value"
             isAnimationActive={false}
-            data={data01}
+            data={votes}
             cx="50%"
             cy="50%"
             outerRadius={80}
