@@ -1,8 +1,11 @@
 import { useState ,useEffect, SetStateAction} from "react";
 import { BuyNowIcon, MoviesCategoryIcon, Remove, SearchIcon, StartCategoryIcon, User, View } from "./svg"
 import "./home.css"
-import { Loading } from "./shop";
+import { Loading, MovieDetails } from "./shop";
 import ReactLoading from "react-loading";
+import { Type } from "typescript";
+import { Link } from "react-router-dom";
+import AnimatedNumber from "react-animated-numbers";
 
 let Logos:company[]=[
 
@@ -48,6 +51,7 @@ export function Home() {
 	const result:any = await response.json();
 
   results.push(result)
+  console.log(result,"hello")
 
     }
 
@@ -76,6 +80,7 @@ return results;
         for (let index = 0; index < resolve.length; index++) {
           let newMovie=new MovieTrending(resolve[index].Title,index+1,parseFloat(resolve[index].imdbRating),resolve[index].Genre,resolve[index].Type,resolve[index].Poster )
        newMovie.setVotingAverage(parseInt(resolve[index].vote_average));
+       newMovie.biography=resolve[index].Plot;
        console.log(parseInt(resolve[index].vote_average));
           moviesCollections.push(newMovie)
 
@@ -97,10 +102,13 @@ return results;
 
     };
   }, []);
+  let Movieindex=movieCollection[0];
+  let chosenMovie=new MovieDetails(Movieindex.name,Movieindex.rating,Movieindex.biography,"movie",[Movieindex.name],new Date(2023),Movieindex.link,89)
+  chosenMovie.image=Movieindex.link;
   return(
     <div className="flex flex-col gap-4">
 
-    <Hero/>
+    <Hero movie={chosenMovie}/>
 
     <div className="flex gap-2 p-12">
       {Logos.map(logo=><CompaniesInvolved url={logo.link} />)}
@@ -112,7 +120,12 @@ return results;
 
       <div className="flex gap-6 overflow-hidden justify-evenly p-8">
 
-              {loading?<AnimationLoading/>:movieCollection.map(movie=> <Trending key={movie.rating} name={movie.name.toString()} position={movie.position} rating={movie.rating} type={movie.type} link={movie.link} category={movie.category}/>)}
+              {loading?<AnimationLoading/>:movieCollection.map(movie=>
+                <Link to="/shop">
+
+                <Trending key={movie.rating} name={movie.name.toString()} position={movie.position} rating={movie.rating} type={movie.type} link={movie.link} category={movie.category}/>
+                </Link>
+                )}
          </div>
     </div>
   <TailwindStats/>
@@ -199,21 +212,28 @@ interface ISearchInput{
   setQuery:any;
 }
 
-function Hero(){
+interface Ihero{
+  movie:MovieDetails;
+}
+function Hero({movie}:Ihero){
 
   let descriptions=["2h40m","2022","Fantasy","Actions"]
-  let explanation="The Mandalorian is actually a television series, not a movie. It premiered on Disney+ in November 2019 and is set in the Star Wars universe. Created by Jon Favreau, the show follows the story of a lone bounty hunter named Din Djarin, who is part of the Mandalorian culture."
+  let explanation=movie.description
+
 
 
   return(
-    <div className="bg-gradient-to-r from-cyan-500 to-blue-500 py-36 px-10  flex flex-col gap-3 hero overflow-hidden">
+    <div style={{background:`linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(${movie.image})`,
+
+
+    }} className="bg-gradient-to-r from-cyan-500 to-blue-500 py-36 px-10  flex flex-col gap-3 hero overflow-hidden">
 
 
 
       <div>
-        <button className="bg-black text-white px-2 py-1 rounded-lg">Season 3</button>
+        <button className="bg-black text-white px-2 py-1 rounded-lg">{movie.category}</button>
       </div>
-        <h2 className="text-4xl font-bold text-white animate-in slide-in-from-left-96"> The Mandolorian</h2>
+        <h2 className="text-4xl font-bold text-white animate-in slide-in-from-left-96">{movie.name}</h2>
 
         <div>
           <div className="flex gap-1">{descriptions.map(description=> <li className="list-none font-thin text-slate-200">{description+"."}</li>)}</div>
@@ -233,13 +253,21 @@ export function ChooseHeroBtns() {
 
   return(
     <div className="flex gap-4">
+      <Link to="Shop">
       <button className="flex items-center bg-green-700 text-white py-4 px-9 rounded-md gap-2 transition delay-150 duration-100 ease-out hover:bg-transparent hover:border hover:border-gray-50 border border-green-700">
-
         <BuyNowIcon/>
 
-       <p>Buy Now</p>
+
+       <p>Visit Shop</p>
         </button>
-      <button className="flex items-center border border-gray-50 text-white py-4 px-9  transition delay-150 duration-100 ease-out rounded-md gap-2 hover:bg-green-700 ">Add Watchlist</button>
+      </Link>
+
+        <Link to="/watchlist">
+      <button className="flex items-center border border-gray-50 text-white py-4 px-9  transition delay-150 duration-100 ease-out rounded-md gap-2 hover:bg-green-700 ">
+
+        Go to Watchlist
+        </button>
+        </Link>
     </div>
   )
 
@@ -311,6 +339,7 @@ class MovieTrending{
   category:string;
   link:string;
   votingAverage!:number;
+  biography!:string;
 
 
   constructor(name:string,position:number,rating:number,type:string,category:string,link:string){
@@ -641,7 +670,8 @@ export default function TailwindStats() {
             {stats.map((stat) => (
               <div key={stat.name} className="flex flex-col-reverse">
                 <dt className="text-base leading-7 text-gray-300">{stat.name}</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">{stat.value}</dd>
+                <dd className="text-2xl font-bold leading-9 tracking-tight text-white"><AnimatedNumber animateToNumber={parseInt(stat.value)}
+      /></dd>
               </div>
             ))}
           </dl>
