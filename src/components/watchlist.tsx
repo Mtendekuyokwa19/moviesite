@@ -38,7 +38,7 @@ console.log(generalStatics,movieset)
 
 
   return(
-   <div className="grid grid-cols-6 gap-2 overflow-hidden h-screen">
+   <div className="sm:grid  sm:grid-cols-6 flex gap-2 overflow-hidden h-screen">
 
    <Sidebar cartitems={cartitems}/>
    {movieset.length===0? <div className="font-bold text-3xl flex justify-center w-screen"><p>Watchlist Is empty!!</p></div>:<div className="flex w-full col-start-2 col-span-5  p-4">
@@ -75,7 +75,7 @@ type TSideBar={
 function Sidebar({cartitems}:TSideBar){
 
   return(
-    <div className="row-span-full flex flex-col h-full bg-gray-100 dark:bg-gray-800">
+    <div className=" row-span-full sm:flex md:flex hidden flex-col h-full bg-gray-100 dark:bg-gray-800">
 
 
 <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
@@ -255,7 +255,7 @@ export  class SecondGraph extends PureComponent<generalStats> {
 
     return (
 
-        <LineChart
+        <LineChart className="hidden sm:block md:block"
           width={600}
           height={500}
           data={this.props.stats}

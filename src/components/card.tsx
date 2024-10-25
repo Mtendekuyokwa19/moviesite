@@ -55,7 +55,7 @@ function MovieCard({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard) {
 
 
   return(
-    <div className="w-1/2 h-4/5 rounded-md" id="modal">
+    <div className="sm:w-1/2 sm:h-4/5 md:w-1/2 md:h-1/5 h-4/5 rounded-md" id="modal">
       <div>
         <Link to={"/Shop"}>
 <button type="button" className=" text-white bg-lime-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -69,7 +69,7 @@ function MovieCard({movie,AddtoCart,toogleWatchlist,Movies}:ImovieCard) {
         <img src={movie?.image}  className="w-screen rounded-2xl " alt="" />
       </div> */}
 
-        <div className="flex bg-white z-10 h-3/5 justify-evenly flex-1  p-5 rounded-sm">
+        <div className="flex bg-white z-10 sm:h-3/5 md:h-3/5  justify-evenly flex-1  p-5 rounded-sm">
           <MovieResearch movie={movie} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} Movies={Movies}/>
 
         </div>
@@ -169,10 +169,10 @@ function toogleWatchList() {
 
      <button className="flex items-center justify-center bg-green-700 text-white flex-1  rounded-md gap-2 hover:bg-emerald-700 "onClick={tooglebuy}>
       <BuyNowIcon/>
-     <p>{bought?"Remove From Cart":"Buy Now"}</p>
+     <p>{bought?"Remove":"Buy Now"}</p>
      </button>
      <button className="flex items-center justify-center  text-black py-4  flex-1 rounded-md gap-2 border-2 border-gray-950 hover:bg-slate-200 " onClick={toogleWatchList}>
-     <p>{watchlist?"Remove from Watchlist":"Add to Watchlist"}</p>
+     <p>{watchlist?"Remove ":"Add to Watchlist"}</p>
        </button>
     </div>
 

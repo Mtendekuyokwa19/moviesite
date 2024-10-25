@@ -165,7 +165,7 @@ function BestOfAction({movies,cardMove,toogleWatchlist,MovieList}:IBestofAction)
 
 
   return(
-  <div className="grid grid-cols-4 grid-rows-6 gap-y-20">
+  <div className="sm:grid sm:p-4 md:p-8 md:py-20 sm:grid-cols-4 sm:grid-rows-6 sm:gap-y-20 flex flex-col ">
     {movies.map(movie=> <MovieCard movie={movie} cardMove={cardMove} manageWatchlist={toogleWatchlist} MovieList={MovieList} />)}
   </div>
 
@@ -202,13 +202,13 @@ export function MovieCard({movie,cardMove,manageWatchlist,MovieList}:IMovieCard)
 
   return(
 
-    <div className="p-8 h-36 transition-all duration-75 ease-in-out hover:scale-105 card">
+    <div className="sm:p-8 p-4 flex flex-col justify-center items-center  sm:h-36 transition-all duration-75 ease-in-out hover:scale-105 card">
 
 
       <Link to={`card/${movie.name}`} >
       <Outlet context={{movie} satisfies movieOutlet }/>
 
-      <img src={movie.image} alt="" className=" rounded-md" onClick={()=>cardMove(movie)} />
+      <img src={movie.image} alt="" className=" rounded-md w-full" onClick={()=>cardMove(movie)} />
       </Link>
 
 

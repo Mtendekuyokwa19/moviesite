@@ -15,6 +15,13 @@ import MovieDetailsfetcher from './components/movieDetailsfetcher';
 
 
 export default function App() {
+  const [menuModal, setmenuModal] = useState(false);
+
+  function toogleMenu() {
+setmenuModal(!menuModal)
+  }
+
+
   let movie:MovieDetails[]=[];
   let watchlist:MovieDetails[]=[];
 const [routeCard, setrouteCard] = useState(new MovieDetails("Jack",89,"panda","jack",["String","string"],new Date(),"",0) );

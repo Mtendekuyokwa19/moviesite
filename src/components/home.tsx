@@ -110,7 +110,7 @@ return results;
 
     <Hero movie={chosenMovie}/>
 
-    <div className="flex gap-2 p-12">
+    <div className="hidden gap-2 p-12 sm:flex">
       {Logos.map(logo=><CompaniesInvolved url={logo.link} />)}
 
     </div>
@@ -118,7 +118,7 @@ return results;
      <div className="flex flex-col gap-4">
       <h2  className="font-bold text-2xl p-6 text-center">Trending Watches</h2>
 
-      <div className="flex gap-6 overflow-hidden justify-evenly p-8">
+      <div className="flex sm:gap-6 gap-28 w-screen lg:p-3    overflow-x-auto  sm:overflow-hidden justify-evenly p-8">
 
               {loading?<AnimationLoading/>:movieCollection.map(movie=>
                 <Link to="/shop">
@@ -194,9 +194,9 @@ function GetQuery(e: { target: { value: SetStateAction<string>; }; }) {
   setQuery(e.target.value)
 
 }
-let inputClassname="  bg-slate-100 rounded-md outline outline-offset-2 outline-1 ";
+let inputClassname="  bg-slate-100  rounded-md outline outline-offset-2 outline-1 ";
   return(
-    <div className="flex gap-2">
+    <div className="flex  gap-1  items-center justify-center sm:gap-2">
       <input type="text" className={(toogleSearch?"hidden"+inputClassname:"flex"+inputClassname)} placeholder="search" onChange={GetQuery}/>
        <button className="flex" onClick={toogle}>
         <SearchIcon/>
@@ -226,7 +226,7 @@ function Hero({movie}:Ihero){
     <div style={{background:`linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url(${movie.image})`,
 
 
-    }} className="bg-gradient-to-r from-cyan-500 to-blue-500 py-36 px-10  flex flex-col gap-3 hero overflow-hidden">
+    }} className="bg-gradient-to-r from-cyan-500 to-blue-500 py-36 sm:px-10 px-5 flex flex-col gap-3 hero overflow-hidden">
 
 
 
@@ -236,9 +236,9 @@ function Hero({movie}:Ihero){
         <h2 className="text-4xl font-bold text-white animate-in slide-in-from-left-96">{movie.name}</h2>
 
         <div>
-          <div className="flex gap-1">{descriptions.map(description=> <li className="list-none font-thin text-slate-200">{description+"."}</li>)}</div>
+          <div className="flex text-sm gap-1">{descriptions.map(description=> <li className="list-none font-thin text-slate-200">{description+"."}</li>)}</div>
 
-           <p className="w-1/2 text-white">
+           <p className="sm:w-1/2 w-82 py-2  text-white ">
         {explanation}
       </p>
         </div>
@@ -252,9 +252,9 @@ function Hero({movie}:Ihero){
 export function ChooseHeroBtns() {
 
   return(
-    <div className="flex gap-4">
+    <div className="flex  sm:justify-start justify-center gap-2 sm:gap-4">
       <Link to="Shop">
-      <button className="flex items-center bg-green-700 text-white py-4 px-9 rounded-md gap-2 transition delay-150 duration-100 ease-out hover:bg-transparent hover:border hover:border-gray-50 border border-green-700">
+      <button className="flex px-6 items-center bg-green-700 text-white py-4 sm:px-9  rounded-md gap-2 transition delay-150 duration-100 ease-out hover:bg-transparent hover:border hover:border-gray-50 border border-green-700">
         <BuyNowIcon/>
 
 
@@ -263,7 +263,7 @@ export function ChooseHeroBtns() {
       </Link>
 
         <Link to="/watchlist">
-      <button className="flex items-center border border-gray-50 text-white py-4 px-9  transition delay-150 duration-100 ease-out rounded-md gap-2 hover:bg-green-700 ">
+      <button className="flex items-center border border-gray-50 text-white py-4 sm:px-9 px-6  transition delay-150 duration-100 ease-out rounded-md gap-2 hover:bg-green-700 ">
 
         Go to Watchlist
         </button>
@@ -305,14 +305,14 @@ function Trending({ name,position,rating,type,category,link}:MovieTrendingI) {
             <button className="border border-gray-600 rounded-md font-mono text-sm" >PG-13</button>
             <p className="font-bold text-lg">{name}</p>
 
-            <div className="flex gap-1">
+            <div className="flex gap-1 ">
               <MoviesCategoryIcon/>
 
               <p>{type}</p>
             </div>
             <div className="flex gap-1">
               <div><StartCategoryIcon/></div>
-              <p>{rating+" |"}</p>
+              <p>{rating.toFixed()+" |"}</p>
               <p>{category}</p>
             </div>
           </div>
@@ -551,7 +551,7 @@ const [movieshown, setmovieshown] = useState(0);
 
 
 
-     <img src={movie[movieshown]?.link} alt="" className="h-1/2 rounded-md" />
+     <img src={movie[movieshown]?.link} alt="" className="h-1/2 rounded-md hidden sm:block" />
          <div className="flex justify-center items-center flex-col">
     <div>
   {accordianQueries.map(query=><AccordianBar question={query.question} response={query.response} changemovie={(index:number)=>setmovieshown(3-index)} index={accordianQueries.indexOf(query)}/>)}
@@ -585,7 +585,7 @@ function toogleShow() {
 
 }
 return(
-  <div className="border-t-2 border-gray-200 px-24 py-4 flex flex-col" onClick={toogleShow} >
+  <div className="border-t-2 border-gray-200 py-2 sm:px-24 sm:py-4 flex flex-col" onClick={toogleShow} >
     <div className="flex justify-between gap-10">
 
       <p className="text-lg">{question+"?"}</p>
@@ -608,12 +608,6 @@ interface AccordianBar{
   index:number;
 }
 
-const links = [
-  { name: 'About', href: '#' },
-  { name: 'Watchlist', href: '#' },
-  { name: 'Cart', href: '#' },
-
-]
 const stats = [
   { name: 'Official Backers', value: '12' },
   { name: 'Movie centers', value: '300+' },
@@ -660,11 +654,6 @@ export default function TailwindStats() {
         </div>
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
-            {links.map((link) => (
-              <a key={link.name} href={link.href}>
-                {link.name} <span aria-hidden="true">&rarr;</span>
-              </a>
-            ))}
           </div>
           <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
