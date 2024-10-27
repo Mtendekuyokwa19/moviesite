@@ -38,7 +38,7 @@ console.log(generalStatics,movieset)
 
 
   return(
-   <div className="sm:grid  sm:grid-cols-6 flex gap-2 overflow-hidden h-screen">
+   <div className="sm:grid  sm:grid-cols-6 flex gap-2 sm:py-6 overflow-y-scroll overflow-x-hidden h-screen">
 
    <Sidebar cartitems={cartitems}/>
    {movieset.length===0? <div className="font-bold text-3xl flex justify-center w-screen"><p>Watchlist Is empty!!</p></div>:<div className="flex w-full col-start-2 col-span-5  p-4">
@@ -46,7 +46,7 @@ console.log(generalStatics,movieset)
 <StatisticsOnVotes votes={votes.length===0?[ErrorMessage]:votes}/>
 <div className="flex flex-col gap-2 ">
    <h1 className="font-bold text-left">Saved Playlist</h1>
-   <div className="overflow-y-scroll ">
+   <div className=" ">
 
    {movieset.map(movie=><TinyCard movie={movie} removeFromWatchlist={removeFromWatchlist}/>)}
    </div>

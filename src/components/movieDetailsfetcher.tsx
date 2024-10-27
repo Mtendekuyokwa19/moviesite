@@ -7,11 +7,11 @@ import ReactLoading from 'react-loading';
 import { ClimbingBoxLoader, ClipLoader, PropagateLoader } from 'react-spinners';
 
 
-async function getMovie(name:string) {
+async function getMovie(name: string) {
   try {
 
-    let movie=await fetch(movieFetch(name))
-    let response=await movie.json()
+    let movie = await fetch(movieFetch(name))
+    let response = await movie.json()
 
     return response
   } catch (error) {
@@ -20,24 +20,24 @@ async function getMovie(name:string) {
 
 }
 
-function useMovieGet(name:string) {
+function useMovieGet(name: string) {
 
-  const [Movie, setMovie] = useState<MovieDetails>(new MovieDetails("",2,"","",[""],new Date(),"",2));
+  const [Movie, setMovie] = useState<MovieDetails>(new MovieDetails("", 2, "", "", [""], new Date(), "", 2));
   const [Loading, setLoading] = useState(false);
   useEffect(() => {
-    let fetchedMovie=getMovie(name);
+    let fetchedMovie = getMovie(name);
 
-    fetchedMovie.then((resolve)=>{
+    fetchedMovie.then((resolve) => {
       console.log(fetchedMovie)
-      let movie=new MovieDetails(resolve.Title,resolve.imdbRating,resolve.Plot,"movie",[""],new Date(resolve.Released),resolve.image,4);
-      movie.image=resolve.Poster;
+      let movie = new MovieDetails(resolve.Title, resolve.imdbRating, resolve.Plot, "movie", [""], new Date(resolve.Released), resolve.image, 4);
+      movie.image = resolve.Poster;
       movie.setVoteCount(resolve.imdbVotes);
       movie.setVotingAverage(resolve.imdbRating)
       setMovie(movie);
-       console.log(Movie)
+      console.log(Movie)
 
     })
-.finally(()=>setLoading(true))
+      .finally(() => setLoading(true))
     return () => {
 
     };
@@ -45,34 +45,35 @@ function useMovieGet(name:string) {
 
 
 
-      return {Movie,Loading}
+  return { Movie, Loading }
 
 }
 
 
-export default function MovieDetailsfetcher({AddtoCart,toogleWatchlist,movies}:IMovieFetcher) {
-  const {name}=useParams();
-  const {Movie,Loading }=useMovieGet(name as string)
+export default function MovieDetailsfetcher({ AddtoCart, removefromcart, toogleWatchlist, movies }: IMovieFetcher) {
+  const { name } = useParams();
+  const { Movie, Loading } = useMovieGet(name as string)
 
   return (
-  Loading? <Card movie={Movie as MovieDetails} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} movies={movies}/>:<LoadingAnimation/>
+    Loading ? <Card movie={Movie as MovieDetails} removeFromCart={removefromcart} AddtoCart={AddtoCart} toogleWatchlist={toogleWatchlist} movies={movies} /> : <LoadingAnimation />
   )
 }
 
-interface IMovieFetcher{
-  AddtoCart:any;
-  toogleWatchlist:any;
-  movies:MovieDetails[]
+interface IMovieFetcher {
+  removefromcart: any;
+  AddtoCart: any;
+  toogleWatchlist: any;
+  movies: MovieDetails[]
 }
 
 function LoadingAnimation() {
   const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-}
+    display: "block",
+    margin: "0 auto",
+    borderColor: "red",
+  }
 
-  return(
+  return (
     <div className='flex items-center h-screen'>
       <PropagateLoader
         color="#ea666d"
