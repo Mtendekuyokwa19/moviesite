@@ -18,11 +18,11 @@ the trends to make a judgement on it. It also has an element of E-COMMERCE where
 1. Git + Github 
 
 ### Installation 
-1. ````bash
-
-$ git clone  git@github.com:Mtendekuyokwa19/moviesite.git 
-$ cd moviesite
-$ npm start 
+1.
+   ````
+   $ git clone  git@github.com:Mtendekuyokwa19/moviesite.git 
+   $ cd moviesite
+   $ npm start 
 
 ### Notes
 1. Practice more lighthouse and seo skills
